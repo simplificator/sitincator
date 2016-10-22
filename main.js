@@ -38,6 +38,15 @@ app.on('ready', () => {
         .then(item => event.sender.send('calendar:status-event-success', item))
         .catch(error => event.sender.send('calendar:status-event-error', error))
       );
+
+      ipcMain.on('calendar:quick-reservation', event => client.insertEvent()
+        .then(response => event.sender.send('calendar:quick-reservation-success', response))
+        .catch(error => event.sender.send('calendar:quick-reservation-error', error))
+      );
+
+      client.insertEvent()
+        .then(response => console.log(response))
+        .catch(error => console.log(error));
     })
     .catch(() => process.exit());
 });

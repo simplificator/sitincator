@@ -3,6 +3,8 @@ const google = require('googleapis');
 let _auth, _calendarId;
 const calendar = google.calendar('v3');
 
+const MILLISECONDS_PER_MINUTE = 60000;
+
 module.exports = class Client {
   constructor(calendarId, auth) {
     _calendarId = calendarId
@@ -10,8 +12,8 @@ module.exports = class Client {
   }
 
   listEvents() {
-    const timeMin = new Date(new Date(2016, 9, 24).setHours(0, 0, 0, 0)).toISOString();
-    const timeMax = new Date(new Date(2016, 9, 24).setHours(23, 59, 59)).toISOString();
+    const timeMin = new Date(new Date().setHours(0, 0, 0, 0)).toISOString();
+    const timeMax = new Date(new Date().setHours(23, 59, 59)).toISOString();
     return new Promise((resolve, reject) => {
       calendar.events.list({
         auth: _auth,
@@ -25,6 +27,32 @@ module.exports = class Client {
           reject(err);
         } else {
           resolve(response.items);
+        }
+      });
+    });
+  }
+
+  insertEvent() {
+    const now = new Date();
+    return new Promise((resolve, reject) => {
+      const event = {
+        description: 'Quick Reservation 15\'',
+        start: {
+          dateTime: now.toISOString(),
+        },
+        end: {
+          dateTime: new Date(now.getTime() + 15 * MILLISECONDS_PER_MINUTE).toISOString(),
+        },
+      };
+      calendar.events.insert({
+        auth: _auth,
+        calendarId: _calendarId,
+        resource: event,
+      }, (err, response) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(response);
         }
       });
     });
