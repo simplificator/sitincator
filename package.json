@@ -37,6 +37,8 @@
     "webpack-dev-server": "^1.16.2"
   },
   "dependencies": {
+    "google-auth-library": "^0.9.9",
+    "googleapis": "^14.1.0",
     "react-router": "^2.8.1",
     "react": "^15.3.2",
     "react-dom": "^15.3.2"
