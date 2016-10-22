@@ -1,6 +1,5 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
-const google = require('googleapis');
-const GCal = require('./src/gcal');
+const gcal = require('./src/gcal');
 
 let win;
 
@@ -25,29 +24,22 @@ function createWindow () {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
-  const gcal = new GCal();
-  gcal.authorize().then(auth => {
-    createWindow();
+  const gcalApi = new gcal.GCal(gcal.CALENDAR_S8);
+  gcalApi.authorize()
+    .then(client => {
+      createWindow();
 
-    ipcMain.on('calendar:list-events', (event, arg) => {
-      var calendar = google.calendar('v3');
-      calendar.events.list({
-        auth: auth,
-        calendarId: 'primary',
-        timeMin: (new Date()).toISOString(),
-        maxResults: 10,
-        singleEvents: true,
-        orderBy: 'startTime'
-      }, function(err, response) {
-        if (err) {
-          event.sender.send('calendar:list-events-error', err);
-          return;
-        } else {
-          event.sender.send('calendar:list-events-success', response.items);
-        }
-      });
-    });
-  }).catch(() => process.exit());
+      ipcMain.on('calendar:list-events', event => client.listEvents()
+        .then(items => event.sender.send('calendar:list-events-success', items))
+        .catch(error => event.sender.send('calendar:list-events-error', error))
+      );
+
+      ipcMain.on('calendar:status-event', event => client.statusEvent()
+        .then(item => event.sender.send('calendar:status-event-success', item))
+        .catch(error => event.sender.send('calendar:status-event-error', error))
+      );
+    })
+    .catch(() => process.exit());
 });
 
 // Quit when all windows are closed.

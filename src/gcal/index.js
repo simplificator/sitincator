@@ -3,10 +3,13 @@ const path = require('path');
 const rl = require('readline');
 const google = require('googleapis');
 const googleAuth = require('google-auth-library');
+const Client = require('./client');
 
 const CREDENTIALS_DIR = path.resolve(__dirname, '../../credentials');
 const API_TOKEN = path.resolve(CREDENTIALS_DIR, 'token.json');
 const SITINCATOR_TOKEN = path.resolve(CREDENTIALS_DIR, 'sitincator.json');
+const CALENDAR_S8 = exports.CALENDAR_S8 = 'simplificator.com_4926spv9kip34g6ko6ulqpnhrg@group.calendar.google.com';
+const CALENDAR_S4 = exports.CALENDAR_S4 = 'simplificator.com_9qdpsbfb444i9p2m6158dinha0@group.calendar.google.com';
 
 function readCredentials() {
   return new Promise((resolve, reject) => {
@@ -64,9 +67,10 @@ function readOauth2Token(oauth2Client) {
   });
 }
 
-module.exports = class GCal {
-  constructor() {
-
+let _calendarId;
+exports.GCal = class GCal {
+  constructor(calendarId) {
+    _calendarId = calendarId;
   }
 
   authorize() {
@@ -78,7 +82,7 @@ module.exports = class GCal {
       const oauth2Client = new auth.OAuth2(clientId, clientSecret, redirectUrl);
       return readOauth2Token(oauth2Client).then(token => {
         oauth2Client.credentials = token;
-        return oauth2Client;
+        return new Client(_calendarId, oauth2Client);
       });
     });
   }
