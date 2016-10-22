@@ -1,0 +1,29 @@
+button {
+  width: 150px;
+  height: 150px;
+
+  border-radius: 50%;
+  border: none;
+  background-color: white;
+
+  box-shadow: 3px 4px 5px rgba(46, 46, 46, 0.4);
+
+  &.big {
+    width: 200px;
+    height: 200px;
+  }
+
+  &.icon {
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 100%;
+
+    &.icon-15-min {
+      background-image: url('../icons/15.svg');
+    }
+
+    &.icon-30-min {
+      background-image: url('../icons/30.svg');
+    }
+  }
+}

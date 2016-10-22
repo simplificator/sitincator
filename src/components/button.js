@@ -17,9 +17,7 @@ export default class Button extends Component {
 
   render() {
     return (
-      <div>
-        <button onClick={this.handleClick}><i className={`icon icon-${this.props.icon}`}></i></button>
-      </div>
+      <button onClick={this.handleClick} className={`icon icon-${this.props.icon}`}></button>
     );
   }
 }

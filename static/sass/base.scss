@@ -3,6 +3,7 @@
 // Colors
 $blue: #4D898B;
 $white: #FFF;
+$black: #2E2E2E;
 
 // Settings
 $primary-color: $blue;
@@ -10,8 +11,20 @@ $primary-color: $blue;
 // Fonts
 $mark-pro-regular: 'Mark Pro';
 
+// Colors
+
+// Settings
+$primary-color: $blue;
+$font-color: $black;
+
+// Fonts
+$mark-pro-regular: 'Mark Pro';
+
 body {
   font-family: $mark-pro-regular;
+  font-size: 16px;
+  color: $black;
+  background-color: $white;
 }
 
 h1 {

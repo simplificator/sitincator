@@ -48,9 +48,11 @@ export default class Status extends Component {
       <div className='status-view'>
         <div className='status-details'>
           <h3>Quick Booking</h3>
-          <Button icon="15-min" handleClick={this.handleFifteen.bind(this)}/>
-          <Button icon="30-min" handleClick={this.handleThirty.bind(this)}/>
-          <h1>It's {this.state.status}</h1>
+          <div className="action-buttons">
+            <Button icon="15-min" handleClick={this.handleFifteen.bind(this)}/>
+            <Button icon="30-min" handleClick={this.handleThirty.bind(this)}/>
+          </div>
+          <h1>It&lsquo;s {this.state.status}</h1>
         </div>
         <Button icon="arrow-up" handleClick={this.handleFifteen.bind(this)}/>
         <EventDetails displayedEvent={this.state.displayedEvent} handleShowSchedule={this.handleShowSchedule}/>
