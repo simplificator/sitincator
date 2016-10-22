@@ -3,6 +3,7 @@ import Button from './button';
 import { ipcRenderer } from 'electron';
 import EventDetails from './event_details';
 
+
 export default class Status extends Component {
 
   constructor(props) {
@@ -43,7 +44,7 @@ export default class Status extends Component {
   }
 
   render() {
-    return ( 
+    return (
       <div>
         <h3>Quick Booking</h3>
         <Button icon="15-min" handleClick={this.handleFifteen.bind(this)}/>
