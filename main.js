@@ -24,7 +24,7 @@ function createWindow () {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
-  const gcalApi = new gcal.GCal(gcal.CALENDAR_S8);
+  const gcalApi = new gcal.GCal(process.env.CALENDAR_ID || gcal.CALENDAR_S8);
   gcalApi.authorize()
     .then(client => {
       createWindow();
