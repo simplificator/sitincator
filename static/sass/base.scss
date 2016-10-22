@@ -20,14 +20,30 @@ $font-color: $black;
 // Fonts
 $mark-pro-regular: 'Mark Pro';
 
+$transition-duration: 0.4s;
+
 body {
   font-family: $mark-pro-regular;
   font-size: 16px;
   color: $black;
   background-color: $white;
 }
+h1, h2, h3 {
+  margin-top: 0;
+}
 
 h1 {
-  font-size: 5em;
-  font-family: 'Mark Pro Bold';
+  font-family: 'Mark Pro Medium';
+  font-size: 5rem;
+}
+
+h3 {
+  font-family: 'Mark Pro Light';
+  font-size: 1.875rem;
+  margin: 0 0 28px 0;
+}
+
+a {
+  text-decoration: none;
+  color: $primary-color;
 }

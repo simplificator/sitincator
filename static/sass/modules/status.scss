@@ -1,7 +1,16 @@
 .status-view {
+  position: relative;
+  top: 0;
+  transition: top $transition-duration ease-in;
+
+  &.expanded {
+    top: -410px;
+    transition: top $transition-duration ease-in;
+  }
+
   .status-details {
+    padding: 40px;
     background-color: $primary-color;
-    border: 1px solid transparent;
     text-align: center;
     color: white;
 
@@ -9,6 +18,8 @@
       display: flex;
       flex-flow: row nowrap;
       justify-content: center;
+
+      margin-bottom: 50px;
 
       button:last-child {
         margin-left: 40px;

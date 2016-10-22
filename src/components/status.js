@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Button from './button';
 import { ipcRenderer } from 'electron';
 import EventDetails from './event_details';
-
+import classNames from 'classnames';
 
 export default class Status extends Component {
 
@@ -11,6 +11,7 @@ export default class Status extends Component {
     this.handleShowSchedule = this.handleShowSchedule.bind(this);
     this.state = {
       status: 'free',
+      detailsExpanded: false,
       displayedEvent: {},
     }
   }
@@ -43,9 +44,20 @@ export default class Status extends Component {
     window.location.hash = 'schedule';
   }
 
+  handleExpandDetails() {
+    this.setState({
+      detailsExpanded: !this.state.detailsExpanded,
+    });
+  }
+
   render() {
+    const rootClasses = classNames({
+      'status-view': true,
+      'expanded': this.state.detailsExpanded,
+    });
+
     return (
-      <div className='status-view'>
+      <div className={rootClasses}>
         <div className='status-details'>
           <h3>Quick Booking</h3>
           <div className="action-buttons">
@@ -54,8 +66,12 @@ export default class Status extends Component {
           </div>
           <h1>It&lsquo;s {this.state.status}</h1>
         </div>
-        <Button icon="arrow-up" className="small" handleClick={this.handleFifteen.bind(this)}/>
-        <EventDetails displayedEvent={this.state.displayedEvent} handleShowSchedule={this.handleShowSchedule}/>
+        <EventDetails
+          displayedEvent={this.state.displayedEvent}
+          expanded={this.state.detailsExpanded}
+          handleExpandDetails={this.handleExpandDetails.bind(this)}
+          handleShowSchedule={this.handleShowSchedule}
+        />
       </div>
     );
   }

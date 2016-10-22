@@ -1,13 +1,24 @@
 @font-face {
   font-family: 'Mark Pro';
-  font-style: normal;
-  font-weight: normal;
   src: url('../fonts/MarkPro.otf');
 }
 
 @font-face {
   font-family: 'Mark Pro Bold';
-  font-style: normal;
-  font-weight: normal;
   src: url('../fonts/MarkPro-Bold.otf');
+}
+
+@font-face {
+  font-family: 'Mark Pro Medium';
+  src: url('../fonts/MarkPro-Medium.otf');
+}
+
+@font-face {
+  font-family: 'Mark Pro Book';
+  src: url('../fonts/MarkPro-Book.otf');
+}
+
+@font-face {
+  font-family: 'Mark Pro Light';
+  src: url('../fonts/MarkPro-Light.otf');
 }

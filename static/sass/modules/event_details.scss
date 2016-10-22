@@ -1,3 +1,21 @@
 .event-details {
+  position: relative;
   background-color: $white;
+  height: 100vh;
+
+  button.expand-btn {
+    position: absolute;
+    right: 50px;
+    top: -31.5px;
+
+    i {
+      transform: rotate(0deg);
+      transition: transform $transition-duration ease-in;
+    }
+
+    &.expanded i {
+      transition: transform $transition-duration ease-in;
+      transform: rotate(180deg);
+    }
+  }
 }

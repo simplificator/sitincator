@@ -17,10 +17,12 @@ export default class Button extends Component {
   }
 
   render() {
-    const buttonClassNames = ['icon', `icon-${this.props.icon}`, this.props.className];
+    const iconClasses = classNames('icon', `icon-${this.props.icon}`);
 
     return (
-      <button onClick={this.handleClick} className={classNames(buttonClassNames)}></button>
+      <button onClick={this.handleClick} className={this.props.className}>
+        <i className={iconClasses}></i>
+      </button>
     );
   }
 }

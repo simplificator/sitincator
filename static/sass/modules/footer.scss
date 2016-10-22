@@ -1,0 +1,39 @@
+footer {
+  position: absolute;
+  bottom: 0;
+  height: 60px;
+  margin: 20px;
+  width: calc(100% - 40px);
+  border-top: 1px solid $primary-color;
+  box-sizing: border-box;
+
+  text-align: center;
+
+  font-family: 'Mark Pro Light';
+  font-size: 1.375rem;
+
+  cursor: pointer;
+
+  a {
+    height: 100%;
+    width: 100%;
+    line-height: 80px;
+    display: inline-block;
+    i.icon {
+      position: relative;
+      width: 30px;
+      height: 30px;
+
+      &.icon-arrow-right {
+        top: 6px;
+        margin-left: 15px;
+      }
+
+      &.icon-arrow-left {
+        top: 6px;
+        margin-right: 15px;
+      }
+
+    }
+  }
+}
