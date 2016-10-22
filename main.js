@@ -1,16 +1,22 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const google = require('googleapis');
 const GCal = require('./src/gcal');
+const path = require('path');
 
 let win;
 
 function createWindow () {
   // Create the browser window.
   win = new BrowserWindow({width: 480, height: 800});
+  if (process.env.NODE_ENV === 'development') {
+    BrowserWindow.addDevToolsExtension(path.join(
+      process.env.HOME,
+      'Library/Application Support/Google/Chrome/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/0.15.4_0')
+    );
+    win.webContents.openDevTools();
+  }
 
   win.loadURL(`file://${__dirname}/index.html`);
-
-  win.webContents.openDevTools();
 
   // Emitted when the window is closed.
   win.on('closed', () => {
