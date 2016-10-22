@@ -14,7 +14,7 @@ export default class EventDetails extends Component {
     }
 
     return ( 
-      <div>
+      <div className='event-details'>
         <h3>
           {this.props.displayedEvent.current ? 'Current Meeting' : 'Coming up'}
           <span>{`For the next ${duration}`}</span>

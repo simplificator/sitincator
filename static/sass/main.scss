@@ -1,17 +1,7 @@
+@import "~normalize.css/normalize.css";
+
 @import 'fonts';
+@import 'base';
+@import 'layout';
 
-// Colors
-$blue: #4D898B;
-$white: #FFF;
-
-// Settings
-$primary-color: $blue;
-
-// Fonts
-$mark-pro-regular: 'Mark Pro';
-
-
-body {
-  font-family: $mark-pro-regular;
-  background-color: $blue;
-}
+@import 'modules/event_details';

@@ -36,11 +36,12 @@
     "webpack-dev-server": "^1.16.2"
   },
   "dependencies": {
+    "electron": "^1.4.4",
     "google-auth-library": "^0.9.9",
     "googleapis": "^14.1.0",
-    "react-router": "^2.8.1",
+    "normalize.css": "^5.0.0",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
-    "electron": "^1.4.4"
+    "react-router": "^2.8.1"
   }
 }
