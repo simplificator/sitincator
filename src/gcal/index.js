@@ -26,7 +26,7 @@ function oauth2TokenInstructions(oauth2Client) {
   });
 
   console.log('Authorize this app by visiting this url: ', authUrl);
-  console.log("\nStore the API Token in `credentials/sitincator.json`");
+  console.log("\nStore the API Token in `credentials/token.json`");
 }
 
 function storeToken(token) {

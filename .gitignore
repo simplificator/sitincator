@@ -45,3 +45,6 @@ jspm_packages
 
 # Build bundle
 build/*
+
+# Google Api
+credentials/*
