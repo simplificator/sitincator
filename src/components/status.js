@@ -54,7 +54,7 @@ export default class Status extends Component {
           </div>
           <h1>It&lsquo;s {this.state.status}</h1>
         </div>
-        <Button icon="arrow-up" handleClick={this.handleFifteen.bind(this)}/>
+        <Button icon="arrow-up" className="small" handleClick={this.handleFifteen.bind(this)}/>
         <EventDetails displayedEvent={this.state.displayedEvent} handleShowSchedule={this.handleShowSchedule}/>
       </div>
     );

@@ -36,6 +36,7 @@
     "webpack-dev-server": "^1.16.2"
   },
   "dependencies": {
+    "classnames": "^2.2.5",
     "electron": "^1.4.4",
     "google-auth-library": "^0.9.9",
     "googleapis": "^14.1.0",

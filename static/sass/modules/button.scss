@@ -8,6 +8,11 @@ button {
 
   box-shadow: 3px 4px 5px rgba(46, 46, 46, 0.4);
 
+  &.small {
+    width: 63px;
+    height: 63px;
+  }
+
   &.big {
     width: 200px;
     height: 200px;
@@ -25,5 +30,10 @@ button {
     &.icon-30-min {
       background-image: url('../icons/30.svg');
     }
+
+    &.icon-arrow-up {
+      background-image: url('../icons/arrow-up.svg');
+    }
+
   }
 }

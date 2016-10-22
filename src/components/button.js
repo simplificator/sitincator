@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import classNames from 'classnames';
 
 export default class Button extends Component {
   static props = {
@@ -16,8 +17,10 @@ export default class Button extends Component {
   }
 
   render() {
+    const buttonClassNames = ['icon', `icon-${this.props.icon}`, this.props.className];
+
     return (
-      <button onClick={this.handleClick} className={`icon icon-${this.props.icon}`}></button>
+      <button onClick={this.handleClick} className={classNames(buttonClassNames)}></button>
     );
   }
 }
