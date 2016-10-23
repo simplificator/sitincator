@@ -54,6 +54,12 @@ app.on('ready', () => {
           .catch(error => event.sender.send('calendar:quick-reservation-error', error));
         }
       );
+
+      ipcMain.on('calendar:finish-reseveration', (event, eventId) => {
+        client.finishEvent(eventId)
+          .then(response => event.sender.send('calendar:finish-reseveration-success', response))
+          .catch(error => event.sender.send('calendar:finish-reseveration-error', error));
+      });
     })
     .catch(() => process.exit());
 });

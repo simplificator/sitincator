@@ -59,6 +59,30 @@ module.exports = class Client {
     });
   }
 
+  finishEvent(eventId) {
+    const now = new Date();
+    return new Promise((resolve, reject) => {
+      const resource = {
+        end: {
+          dateTime: now.toISOString(),
+        },
+      };
+      calendar.events.patch({
+        auth: _auth,
+        calendarId: _calendarId,
+        eventId,
+        resource,
+      }, (err, response) => {
+        console.log(err, response);
+        if (err) {
+          reject(err);
+        } else {
+          resolve(this.statusEvent());
+        }
+      });
+    });
+  }
+
   statusEvent() {
     const now = new Date().getTime();
     return this.listEvents()
@@ -74,7 +98,7 @@ module.exports = class Client {
             return true;
           };
         });
-        return item;
+        return item || {};
       });
   }
 }

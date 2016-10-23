@@ -29,6 +29,10 @@ export default class Status extends Component {
 
     ipcRenderer.on('calendar:quick-reservation-success', (event, displayedEvent) => this.setState({ displayedEvent }));
     ipcRenderer.on('calendar:quick-reservation-failure', (event, error) => console.error(error));
+
+    ipcRenderer.on('calendar:finish-reseveration-success', (event, displayedEvent) => this.setState({ displayedEvent }));
+    ipcRenderer.on('calendar:finish-reseveration-failure', (event, error) => console.error(error));
+
   }
 
   componentWillUnmount() {
@@ -49,15 +53,15 @@ export default class Status extends Component {
     });
   }
 
-  handleCompleteReservation() {
-
+  handleFinishReservation() {
+    ipcRenderer.send('calendar:finish-reseveration', this.state.displayedEvent.id);
   }
 
   isBooked() {
     const now = Date.now();
     return Object.keys(this.state.displayedEvent).length > 0
       && Date.parse(this.state.displayedEvent.start.dateTime) <= now
-      && Date.parse(this.state.displayedEvent.end.dateTime) >= now;
+      && Date.parse(this.state.displayedEvent.end.dateTime) > now;
   }
 
   render() {
@@ -97,7 +101,7 @@ export default class Status extends Component {
     return (
       <div className='status-details'>
         <div className="action-buttons">
-          <Button icon="cancel" className="big" handleClick={this.handleCompleteReservation.bind(this)}/>
+          <Button icon="cancel" className="big" handleClick={this.handleFinishReservation.bind(this)}/>
         </div>
         <h1>Booked</h1>
       </div>
