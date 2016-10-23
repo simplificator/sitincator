@@ -21,9 +21,15 @@ export default class EventDetails extends Component {
   render() {
     var duration = 0;
 
-    if (this.props.displayedEvent.id) {
-      duration = Date.parse(this.props.displayedEvent.start.dateTime) - Date.now();
+    if (!this.props.displayedEvent || !this.props.displayedEvent.id) {
+      return (
+        <div className='event-details'>
+          no event
+        </div>
+      );
     }
+
+    duration = Date.parse(this.props.displayedEvent.start.dateTime) - Date.now();
 
     const btnClasses = classNames({
       small: true,

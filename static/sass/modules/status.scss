@@ -9,6 +9,7 @@
   }
 
   .status-details {
+    height: 410px;
     padding: 40px;
     background-color: $primary-color;
     text-align: center;
@@ -19,10 +20,22 @@
       flex-flow: row nowrap;
       justify-content: center;
 
-      margin-bottom: 50px;
+      margin: 35px 0 35px 0;
 
       button:last-child {
         margin-left: 40px;
+      }
+    }
+  }
+
+  &.booked {
+    .status-details {
+      background-color: $black;
+
+      .action-buttons {
+        button {
+          margin: 0;
+        }
       }
     }
   }

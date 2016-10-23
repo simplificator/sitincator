@@ -45,16 +45,19 @@ i.icon {
 
   &.icon-arrow-up {
     background-image: url('../icons/arrow-up.svg');
-    background-position: center center;
   }
 
   &.icon-arrow-left {
     background-image: url('../icons/arrow-left.svg');
-    background-position: center center;
   }
 
   &.icon-arrow-right {
     background-image: url('../icons/arrow-right.svg');
+  }
+
+  &.icon-cancel {
+    background-image: url('../icons/cancel.svg');
     background-position: center center;
   }
+
 }

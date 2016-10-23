@@ -32,22 +32,23 @@ module.exports = class Client {
     });
   }
 
-  insertEvent() {
+  insertEvent(duration = 15) {
     const now = new Date();
     return new Promise((resolve, reject) => {
-      const event = {
-        description: 'Quick Reservation 15\'',
+      const resource = {
+        summary: `Quick Reservation ${duration}'`,
+        description: `Quick Reservation ${duration}'`,
         start: {
           dateTime: now.toISOString(),
         },
         end: {
-          dateTime: new Date(now.getTime() + 15 * MILLISECONDS_PER_MINUTE).toISOString(),
+          dateTime: new Date(now.getTime() + duration * MILLISECONDS_PER_MINUTE).toISOString(),
         },
       };
       calendar.events.insert({
         auth: _auth,
         calendarId: _calendarId,
-        resource: event,
+        resource,
       }, (err, response) => {
         if (err) {
           reject(err);
@@ -59,7 +60,7 @@ module.exports = class Client {
   }
 
   statusEvent() {
-    const now = new Date(2016, 9, 24, 13, 4, 12).getTime();
+    const now = new Date().getTime();
     return this.listEvents()
       .then(events => {
         const item = events.find(event => {

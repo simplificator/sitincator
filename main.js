@@ -9,12 +9,13 @@ let win;
 function createWindow () {
   // Create the browser window.
   win = new BrowserWindow({width: 480, height: 800});
+
   if (process.env.NODE_ENV === 'development') {
+    win.webContents.openDevTools();
     BrowserWindow.addDevToolsExtension(path.join(
       process.env.HOME,
       'Library/Application Support/Google/Chrome/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/0.15.4_0')
     );
-    win.webContents.openDevTools();
   }
 
   win.loadURL(`file://${__dirname}/index.html`);
@@ -47,9 +48,11 @@ app.on('ready', () => {
         .catch(error => event.sender.send('calendar:status-event-error', error))
       );
 
-      ipcMain.on('calendar:quick-reservation', event => client.insertEvent()
-        .then(response => event.sender.send('calendar:quick-reservation-success', response))
-        .catch(error => event.sender.send('calendar:quick-reservation-error', error))
+      ipcMain.on('calendar:quick-reservation', (event, duration) => {
+        client.insertEvent(duration)
+          .then(response => event.sender.send('calendar:quick-reservation-success', response))
+          .catch(error => event.sender.send('calendar:quick-reservation-error', error));
+        }
       );
 
       client.insertEvent()

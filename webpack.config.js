@@ -12,15 +12,15 @@ module.exports = {
 
   module: {
     loaders: [
-      { 
+      {
         test: /\.js$/,
-        loader: 'babel-loader', 
+        loader: 'babel-loader',
         exclude: /node_modules/,
         query: {
           presets: ['es2015', 'stage-0', 'react']
         }
       },
-      { 
+      {
         test: /\.scss$/,
         loader: 'style-loader!css-loader!resolve-url-loader!sass-loader'
       },
@@ -33,5 +33,5 @@ module.exports = {
 
   target: 'electron-renderer',
 
-  devtool: 'cheap-module-eval-source-map'
+  devtool: 'eval-sourcemap',
 };

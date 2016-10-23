@@ -16,28 +16,27 @@ export default class Status extends Component {
     }
   }
 
-  handleFifteen() {
-    console.log('15min Button clicked');
-  }
-
-  handleThirty() {
-    console.log('30min Button clicked');
-  }
-
   componentDidMount() {
-    ipcRenderer.send('calendar:list-events');
+    ipcRenderer.send('calendar:status-event');
 
-    ipcRenderer.on('calendar:list-events-success', (event, arg) => {
-      this.setState({ displayedEvent: arg[1] });
+    ipcRenderer.on('calendar:status-event-success', (event, displayedEvent) => {
+      this.setState({ displayedEvent });
     })
 
-    ipcRenderer.on('calendar:list-events-error', (event, err) => {
-      console.log(err, "Web")
+    ipcRenderer.on('calendar:status-event-error', (event, err) => {
+      console.error('An error occurred loading the status event:', err);
     })
+
+    ipcRenderer.on('calendar:quick-reservation-success', (event, displayedEvent) => this.setState({ displayedEvent }));
+    ipcRenderer.on('calendar:quick-reservation-failure', (event, error) => console.error(error));
   }
 
   componentWillUnmount() {
     ipcRenderer.removeAllListeners();
+  }
+
+  handleQuickReservation(duration) {
+    ipcRenderer.send('calendar:quick-reservation', duration);
   }
 
   handleShowSchedule() {
@@ -50,28 +49,57 @@ export default class Status extends Component {
     });
   }
 
+  handleCompleteReservation() {
+
+  }
+
+  isBooked() {
+    const now = Date.now();
+    return Object.keys(this.state.displayedEvent).length > 0
+      && Date.parse(this.state.displayedEvent.start.dateTime) <= now
+      && Date.parse(this.state.displayedEvent.end.dateTime) >= now;
+  }
+
   render() {
     const rootClasses = classNames({
       'status-view': true,
       'expanded': this.state.detailsExpanded,
+      'booked': this.isBooked(),
     });
 
     return (
       <div className={rootClasses}>
-        <div className='status-details'>
-          <h3>Quick Booking</h3>
-          <div className="action-buttons">
-            <Button icon="15-min" handleClick={this.handleFifteen.bind(this)}/>
-            <Button icon="30-min" handleClick={this.handleThirty.bind(this)}/>
-          </div>
-          <h1>It&lsquo;s {this.state.status}</h1>
-        </div>
+        {this.isBooked() ? this.renderBooked() : this.renderFree()}
         <EventDetails
           displayedEvent={this.state.displayedEvent}
           expanded={this.state.detailsExpanded}
           handleExpandDetails={this.handleExpandDetails.bind(this)}
           handleShowSchedule={this.handleShowSchedule}
         />
+      </div>
+    );
+  }
+
+  renderFree() {
+    return (
+      <div className='status-details'>
+        <h3>Quick Booking</h3>
+        <div className="action-buttons">
+          <Button icon="15-min" handleClick={this.handleQuickReservation.bind(this, 15)}/>
+          <Button icon="30-min" handleClick={this.handleQuickReservation.bind(this, 30)}/>
+        </div>
+        <h1>It&lsquo;s {this.state.status}</h1>
+      </div>
+    );
+  }
+
+  renderBooked() {
+    return (
+      <div className='status-details'>
+        <div className="action-buttons">
+          <Button icon="cancel" className="big" handleClick={this.handleCompleteReservation.bind(this)}/>
+        </div>
+        <h1>Booked</h1>
       </div>
     );
   }
