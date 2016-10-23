@@ -54,10 +54,6 @@ app.on('ready', () => {
           .catch(error => event.sender.send('calendar:quick-reservation-error', error));
         }
       );
-
-      client.insertEvent()
-        .then(response => console.log(response))
-        .catch(error => console.log(error));
     })
     .catch(() => process.exit());
 });
