@@ -62,7 +62,7 @@ export default class EventDetails extends Component {
           {displayedEvent.isCurrent ? 'CURRENT MEETING' : 'COMING UP'}
         </h3>
         <h3 className="event-details-name">{displayedEvent.summary}</h3>
-        <p className="event-details-time">{`${startTime.format("hh:mm")} - ${endTime.format("hh:mm")}`}</p>
+        <p className="event-details-time">{`${startTime.format("h:mm")} - ${endTime.format("h:mm")}`}</p>
         <p className="event-details-creator">{displayedEvent.creator.email}</p>
         <ul className="event-details-attendees">{this.attendees()}</ul>
       </div>
