@@ -1,10 +1,15 @@
+#app {
+  height: 100vh;
+  overflow: hidden;
+}
+
 .status-view {
   position: relative;
   top: 0;
   transition: top $transition-duration ease-in;
 
   &.expanded {
-    top: -410px;
+    top: -430px;
     transition: top $transition-duration ease-in;
   }
 
@@ -16,7 +21,7 @@
     color: white;
 
     h1 {
-      margin-top: 40px;
+      margin-top: 30px;
     }
 
     .action-buttons {

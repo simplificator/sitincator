@@ -1,7 +1,46 @@
 .event-details {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   background-color: $white;
-  height: 100vh;
+  height: 640px;
+  background-color: white;
+
+  .event-details-status {
+    margin: 40px 0 30px 0;
+    font-size: 23px;
+    color: $primary-color;
+  }
+
+  .event-details-name {
+    height: 65px;
+    margin: 0 20px 30px 20px;
+    text-align: center;
+  }
+
+  .event-details-time {
+    font-family: "Mark Pro Bold";
+    font-size: 26px;
+    height: 50px;
+    line-height: 50px;
+  }
+
+  .event-details-creator {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 40px 0 20px 0;
+  }
+
+  .event-details-attendees {
+    list-style: none;
+    padding: 0;
+    text-align: center;
+
+    li {
+      margin: 10px;
+    }
+  }
 
   button.expand-btn {
     position: absolute;

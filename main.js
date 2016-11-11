@@ -55,10 +55,10 @@ app.on('ready', () => {
         }
       );
 
-      ipcMain.on('calendar:finish-reseveration', (event, eventId) => {
+      ipcMain.on('calendar:finish-reservation', (event, eventId) => {
         client.finishEvent(eventId)
-          .then(response => event.sender.send('calendar:finish-reseveration-success', response))
-          .catch(error => event.sender.send('calendar:finish-reseveration-error', error));
+          .then(response => event.sender.send('calendar:finish-reservation-success', response))
+          .catch(error => event.sender.send('calendar:finish-reservation-error', error));
       });
     })
     .catch(() => process.exit());
