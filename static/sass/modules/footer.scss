@@ -1,7 +1,7 @@
 footer {
   position: absolute;
   bottom: 0;
-  height: 80px;
+  height: 95px;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -10,8 +10,9 @@ footer {
 }
 
 .footer {
-  height: 60px;
-  margin: 0 20px 20px 20px;
+  height: 65px;
+  margin: 0 0 30px 0;
+  padding: 21px 0 0 0;
   width: calc(100% - 40px);
   border-top: 1px solid $primary-color;
   box-sizing: border-box;
@@ -28,7 +29,6 @@ footer {
   a {
     height: 100%;
     width: 100%;
-    line-height: 80px;
     display: inline-block;
     i.icon {
       position: relative;

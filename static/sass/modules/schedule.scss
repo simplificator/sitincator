@@ -1,0 +1,38 @@
+.schedule {
+
+  .schedule-header {
+    font-family: "Mark Pro Book";
+    letter-spacing: 0.7px;
+    color: $primary-color;
+    margin: 65px 0 31px 0;
+    line-height: 44px;
+  }
+
+  .event-duration {
+    font-family: "Mark Pro Bold";
+    font-size: 20px;
+    letter-spacing: 0.3px;
+    margin: 0;
+    height: 44px;
+    line-height: 44px;
+  }
+
+  .schedule-event-name {
+    font-size: 20px;
+    letter-spacing: 0.3px;
+    line-height: 28px;
+    width: 396px;
+    text-align: center;
+    margin: 0;
+  }
+
+  .schedule-event-list {
+    height: 586px;
+    overflow-y: auto;
+    width: 100%;
+  }
+
+  .schedule-event {
+    margin: 18px 0 0 0;
+  }
+}

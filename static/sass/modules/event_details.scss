@@ -1,25 +1,34 @@
-.event-details {
-  position: relative;
+.flex-container {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.event-details {
+  position: relative;
   background-color: $white;
   height: 640px;
   background-color: white;
 
   .event-details-status {
-    margin: 40px 0 30px 0;
-    font-size: 23px;
+    width: 396px;
+    height: 44px;
+    line-height: 44px;
+    text-align: center;
+    margin: 27px 0 12px 0;
+    font-size: 22px;
+    font-family: 'Mark Pro Book';
     color: $primary-color;
   }
 
   .event-details-name {
-    height: 65px;
-    margin: 0 20px 30px 20px;
+    height: 88px;
+    width: 396px;
+    margin: 0 0 25px 0;
     text-align: center;
   }
 
-  .event-details-time {
+  .event-duration {
     font-family: "Mark Pro Bold";
     font-size: 30px;
     height: 50px;

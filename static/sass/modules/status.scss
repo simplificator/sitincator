@@ -21,7 +21,27 @@
     color: white;
 
     h1 {
-      margin-top: 30px;
+      margin-top: 40px;
+      font-family: 'Mark Pro Bold';
+      letter-spacing: 1.3px;
+      font-size: 80px;
+      width: 396px;
+    }
+
+    h2 {
+      font-family: 'Mark Pro Book';
+      letter-spacing: 0.5px;
+      font-size: 30px;
+      width: 396px;
+      height: 44px;
+    }
+
+    h3 {
+      height: 44px;
+      margin: 4px 0 28px 0;
+      font-family: 'Mark Pro Book';
+      letter-spacing: 0.5px;
+      font-size: 30px;
     }
 
     .action-buttons {
@@ -34,15 +54,19 @@
           margin-left: 40px;
         }
       }
+
+      &.single {
+        margin: 51px 0 0 0;
+      }
     }
   }
 
   &.booked {
     .status-details {
-      background-color: $black;
+      background-color: $red;
 
       h1 {
-        margin-top: 40px;
+        margin-top: 15px;
       }
     }
   }

@@ -14,7 +14,7 @@ export default class Status extends Component {
   constructor(props) {
     super(props);
     this.handleShowSchedule = this.handleShowSchedule.bind(this);
-    this.setUpdateStatusEventInterval = this.setUpdateStatusEventInterval.bind(this);
+    this.setUpdateDisplayedEventInterval = this.setUpdateDisplayedEventInterval.bind(this);
     this.state = {
       status: 'free',
       detailsExpanded: false,
@@ -24,34 +24,30 @@ export default class Status extends Component {
 
   componentDidMount() {
     ipcRenderer.send('calendar:status-event');
-    this.setUpdateStatusEventInterval();
+    this.setUpdateDisplayedEventInterval();
 
     ipcRenderer.on('calendar:status-event-success', (event, displayedEvent) => {
       this.setState({ displayedEvent });
-    })
+    });
 
     ipcRenderer.on('calendar:status-event-error', (event, err) => {
       console.error('An error occurred loading the status event:', err);
-    })
+    });
 
     ipcRenderer.on('calendar:quick-reservation-success', (event, displayedEvent) => this.setState({ displayedEvent }));
     ipcRenderer.on('calendar:quick-reservation-failure', (event, error) => console.error(error));
 
     ipcRenderer.on('calendar:finish-reservation-success', (event, displayedEvent) => this.setState({ displayedEvent }));
     ipcRenderer.on('calendar:finish-reservation-failure', (event, error) => console.error(error));
-
-    ipcRenderer.on('calendar:list-events-success', (event, events) => console.log(events));
-    ipcRenderer.on('calendar:list-events-failure', (event, error) => console.error(error));
-
   }
 
   componentWillUnmount() {
     ipcRenderer.removeAllListeners();
-    clearInterval(this.updateStatusInterval);
+    clearInterval(this.updateEventInterval);
   }
 
-  setUpdateStatusEventInterval() {
-    this.updateStatusInterval = setInterval(() => {
+  setUpdateDisplayedEventInterval() {
+    this.updateEventInterval = setInterval(() => {
       ipcRenderer.send('calendar:status-event');
     }, STATUS_UPDATE_INTERVAL_MS);
   }
@@ -121,7 +117,6 @@ export default class Status extends Component {
 
     return (
       <div className='status-details' key={1}>
-        <h3></h3>
         <div className="action-buttons single">
           <Button icon="cancel" className="big" handleClick={this.handleFinishReservation.bind(this)}/>
         </div>
