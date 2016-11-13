@@ -19,6 +19,9 @@
     background-color: $primary-color;
     text-align: center;
     color: white;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    position: relative;
+    z-index:100;
 
     h1 {
       margin-top: 40px;

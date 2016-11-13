@@ -1,5 +1,30 @@
 .schedule {
 
+  .time-line {
+    border: 1px solid $primary-color;
+    width: 100%;
+    height: 0;
+  }
+
+  .time-line:before, .time-line:after {
+    content: '';
+    height: 14px;
+    width: 14px;
+    border-radius: 14px;
+    float: left;
+    background: $primary-color;
+    margin-top: -7px;
+  }
+
+  .time-line:after {
+    float: right;
+    margin-right: -2px;
+  }
+
+  .time-line:before {
+    margin-left: -2px;
+  }
+
   .schedule-header {
     font-family: "Mark Pro Book";
     letter-spacing: 0.7px;

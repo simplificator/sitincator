@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Button from './button';
 import classNames from 'classnames';
-import moment from 'moment';
 import { isEmpty } from 'lodash/lang';
 import EventDuration from './event_duration';
 
