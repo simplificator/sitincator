@@ -1,5 +1,4 @@
 const google = require('googleapis');
-const Util = require('./../util');
 
 let _auth, _calendarId;
 const calendar = google.calendar('v3');
@@ -54,7 +53,7 @@ module.exports = class Client {
         if (err) {
           reject(err);
         } else {
-          resolve(response);
+          resolve(this.listEvents());
         }
       });
     });
@@ -78,7 +77,7 @@ module.exports = class Client {
         if (err) {
           reject(err);
         } else {
-          resolve(this.statusEvent());
+          resolve(this.listEvents());
         }
       });
     });

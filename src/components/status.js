@@ -1,62 +1,27 @@
-import React, { Component } from 'react';
-import Button from './button';
-import { ipcRenderer } from 'electron';
+import React, { Component, PropTypes } from 'react';
 import EventDetails from './event_details';
 import classNames from 'classnames';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-import humanizeDuration from 'humanize-duration';
-import { isEmpty } from 'lodash/lang';
+import Free from './free';
+import Booked from './booked';
 
-const STATUS_UPDATE_INTERVAL_MS = 60000;
+
 
 export default class Status extends Component {
+  static propTypes = {
+    events: PropTypes.array,
+    nextEvent: PropTypes.object,
+    nextEventIdx: PropTypes.number,
+    onQuickReservation: PropTypes.func,
+    onFinishReservation: PropTypes.func,
+    onShowSchedule: PropTypes.func
+  }
 
   constructor(props) {
     super(props);
-    this.handleShowSchedule = this.handleShowSchedule.bind(this);
     this.state = {
-      status: 'free',
-      detailsExpanded: false,
-      displayedEvent: {},
+      detailsExpanded: false
     }
-  }
-
-  componentDidMount() {
-    ipcRenderer.send('calendar:status-event');
-    this.setUpdateDisplayedEventInterval();
-
-    ipcRenderer.on('calendar:status-event-success', (event, displayedEvent) => {
-      this.setState({ displayedEvent });
-    });
-
-    ipcRenderer.on('calendar:status-event-error', (event, err) => {
-      console.error('An error occurred loading the status event:', err);
-    });
-
-    ipcRenderer.on('calendar:quick-reservation-success', (event, displayedEvent) => this.setState({ displayedEvent }));
-    ipcRenderer.on('calendar:quick-reservation-failure', (event, error) => console.error(error));
-
-    ipcRenderer.on('calendar:finish-reservation-success', (event, displayedEvent) => this.setState({ displayedEvent }));
-    ipcRenderer.on('calendar:finish-reservation-failure', (event, error) => console.error(error));
-  }
-
-  componentWillUnmount() {
-    ipcRenderer.removeAllListeners();
-    clearInterval(this.updateEventInterval);
-  }
-
-  setUpdateDisplayedEventInterval() {
-    this.updateEventInterval = setInterval(() => {
-      ipcRenderer.send('calendar:status-event');
-    }, STATUS_UPDATE_INTERVAL_MS);
-  }
-
-  handleQuickReservation(duration) {
-    ipcRenderer.send('calendar:quick-reservation', duration);
-  }
-
-  handleShowSchedule() {
-    window.location.hash = 'schedule';
   }
 
   handleExpandDetails() {
@@ -65,89 +30,55 @@ export default class Status extends Component {
     });
   }
 
-  handleFinishReservation() {
-    ipcRenderer.send('calendar:finish-reservation', this.state.displayedEvent.id);
-  }
-
   isBooked() {
+    const { nextEvent } = this.props;
     const now = Date.now();
-    return Object.keys(this.state.displayedEvent).length > 0
-      && Date.parse(this.state.displayedEvent.start.dateTime) <= now
-      && Date.parse(this.state.displayedEvent.end.dateTime) > now;
-  }
 
-  humanReadableDuration(ms) {
-    // largest: max number of units to display, round: round to smallest unit displayed
-    return humanizeDuration(ms, { largest: 1, round: true });
-  }
-
-  freeStatusSubMessage() {
-    const { displayedEvent } = this.state;
-    const remainingTime = this.humanReadableDuration(Date.parse(displayedEvent.start.dateTime) - Date.now());
-    return `for the next ${remainingTime}`;
-  }
-
-  renderFree() {
-    const { displayedEvent } = this.state;
-    const remainingTimeMessage = isEmpty(displayedEvent) ? null : this.freeStatusSubMessage();
-
-    return (
-      <div className='status-details' key={0}>
-        <h3>Quick Booking</h3>
-        <div className="action-buttons multiple">
-          <Button icon="15-min" handleClick={this.handleQuickReservation.bind(this, 15)}/>
-          <Button icon="30-min" handleClick={this.handleQuickReservation.bind(this, 30)}/>
-        </div>
-        <h1>It&lsquo;s {this.state.status}</h1>
-        <h2>{remainingTimeMessage}</h2>
-      </div>
-    );
-  }
-
-  bookedStatusSubMessage() {
-    const { displayedEvent } = this.state;
-    const remainingTime = this.humanReadableDuration(Date.parse(displayedEvent.end.dateTime) - Date.now());
-    return `for the next ${remainingTime}`;
-  }
-
-  renderBooked() {
-    const { displayedEvent } = this.state;
-    const remainingTimeMessage = isEmpty(displayedEvent) ? null : this.bookedStatusSubMessage();
-
-    return (
-      <div className='status-details' key={1}>
-        <div className="action-buttons single">
-          <Button icon="cancel" className="big" handleClick={this.handleFinishReservation.bind(this)}/>
-        </div>
-        <h1>Booked</h1>
-        <h2>{remainingTimeMessage}</h2>
-      </div>
-    );
+    return Object.keys(nextEvent).length > 0
+      && Date.parse(nextEvent.start.dateTime) <= now
+      && Date.parse(nextEvent.end.dateTime) > now;
   }
 
   render() {
+    const { nextEvent, onQuickReservation, onFinishReservation, onShowSchedule } = this.props;
+    const { detailsExpanded } = this.state;
     const rootClasses = classNames({
       'status-view': true,
-      'expanded': this.state.detailsExpanded,
+      'expanded': detailsExpanded,
       'booked': this.isBooked(),
     });
 
-    const innerComponents = this.isBooked() ? [null, this.renderBooked()] : [this.renderFree(), null];
+    let statusComponent = this.isBooked() ?
+      <Booked
+        onClick={() => onFinishReservation(nextEvent.id)}
+        nextEvent={nextEvent}
+        key={1}
+      /> :
+      <Free
+        onClick15={() => onQuickReservation(15)}
+        onClick30={() => onQuickReservation(30)}
+        nextEvent={nextEvent}
+        key={1}
+      />;
+
 
     return (
       <div className={rootClasses}>
         <ReactCSSTransitionGroup
           transitionName="fade"
+          transitionAppear={true}
+          transitionAppearTimeout={500}
           transitionEnterTimeout={500}
           transitionLeaveTimeout={300}>
-          {innerComponents}
+          {statusComponent}
         </ReactCSSTransitionGroup>
         <EventDetails
-          displayedEvent={this.state.displayedEvent}
-          expanded={this.state.detailsExpanded}
+          nextEvent={nextEvent}
+          expanded={detailsExpanded}
           handleExpandDetails={this.handleExpandDetails.bind(this)}
-          handleShowSchedule={this.handleShowSchedule}
+          handleShowSchedule={onShowSchedule}
         />
+
       </div>
     );
   }
