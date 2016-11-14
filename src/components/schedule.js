@@ -21,10 +21,12 @@ export default class Schedule extends Component {
     super(props);
   }
 
-  setUpdateDisplayedEventsInterval() {
-    this.updateEventsInterval = setInterval(() => {
-      ipcRenderer.send('calendar:list-events');
-    }, STATUS_UPDATE_INTERVAL_MS);
+  componentDidMount() {
+    this.refs.timeLinePosition.scrollIntoView({behavior: 'instant'});
+  }
+
+  componentDidUpdate() {
+    this.refs.timeLinePosition.scrollIntoView({behavior: 'instant'});
   }
 
   timeLine() {
@@ -33,16 +35,24 @@ export default class Schedule extends Component {
     );
   }
 
-  render() {
+  scrollToTimeLine(container) {
+    if (container === null) {
+      return;
+    }
+    container.scrollIntoView({behavior: 'instant'});
+  }
 
+  render() {
     const { events, nextEvent, nextEventIdx } = this.props;
     const displayedEvents = events.map((event, idx) => {
-
+      let isNextEvent = (nextEventIdx === idx);
+      let isBeforeNext = (nextEventIdx === idx + 1);
       return (
         <div className="flex-container schedule-event" key={idx}>
-          {((nextEventIdx === idx) && !event.isCurrent) ? this.timeLine() : null }
+          {isBeforeNext ? <span ref="timeLinePosition"></span> : null}
+          {(isNextEvent && !event.isCurrent) ? this.timeLine() : null }
           <EventDuration event={event} />
-          {((nextEventIdx === idx) && event.isCurrent) ? this.timeLine() : null }
+          {(isNextEvent && event.isCurrent) ? this.timeLine() : null }
           <h3 className="schedule-event-name">{event.summary}</h3>
         </div>
       )
