@@ -1,5 +1,5 @@
 const google = require('googleapis');
-import { nextEvent } from './../util.js';
+const Util = require('./../util');
 
 let _auth, _calendarId;
 const calendar = google.calendar('v3');
@@ -88,7 +88,17 @@ module.exports = class Client {
     const now = new Date().getTime();
     return this.listEvents()
       .then(events => {
-        const item = nextEvent(events);
+        const item = events.find((e) => {
+          const start = new Date(e.start.dateTime).getTime();
+          const end = new Date(e.end.dateTime).getTime();
+          if (now > start && now < end) {
+            e.isCurrent = true
+            return true;
+          }
+          if (now < start) {
+            return true;
+          };
+        });
         return item || {};
       });
   }

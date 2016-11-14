@@ -14,7 +14,6 @@ export default class Status extends Component {
   constructor(props) {
     super(props);
     this.handleShowSchedule = this.handleShowSchedule.bind(this);
-    this.setUpdateDisplayedEventInterval = this.setUpdateDisplayedEventInterval.bind(this);
     this.state = {
       status: 'free',
       detailsExpanded: false,

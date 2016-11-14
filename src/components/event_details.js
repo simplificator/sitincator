@@ -16,6 +16,10 @@ export default class EventDetails extends Component {
     expanded: false,
   };
 
+  constructor(props) {
+    super(props);
+  }
+
   handleExpandDetails() {
     this.props.handleExpandDetails();
   }
