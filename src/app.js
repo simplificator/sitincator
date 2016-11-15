@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { browserHistory, Router, Route, IndexRoute, Link } from 'react-router'
 import { ipcRenderer } from 'electron';
+import { nextEvent, nextEventIdx } from './util';
 
 const STATUS_UPDATE_INTERVAL_MS = 60000;
 
@@ -57,41 +58,10 @@ export default class App extends Component {
     }, STATUS_UPDATE_INTERVAL_MS);
   }
 
-  nextEvent() {
-    const now = new Date().getTime();
-    const item = this.state.events.find((e) => {
-      const start = new Date(e.start.dateTime).getTime();
-      const end = new Date(e.end.dateTime).getTime();
-      if (now > start && now < end) {
-        e.isCurrent = true
-        return true;
-      }
-      if (now < start) {
-        return true;
-      };
-    });
-    return item || {};
-  }
 
-  nextEventIdx() {
-    const { events } = this.state;
-
-    return events.findIndex((e) => {
-      const now = new Date().getTime()
-      const start = new Date(e.start.dateTime).getTime();
-      const end = new Date(e.end.dateTime).getTime();
-
-      if (now > start && now < end) {
-        e.isCurrent = true
-        return true;
-      }
-      if (now < start) {
-        return true;
-      };
-    });
-  }
 
   render() {
+    const { events } = this.state;
     const footerText = isStatusView() ?
       <span>full schedule <i className="icon icon-arrow-right"></i></span> :
       <span><i className="icon icon-arrow-left"></i> back to booking</span>;
@@ -99,9 +69,9 @@ export default class App extends Component {
     return (
       <div id="app">
         {React.cloneElement(this.props.children, {
-          events: this.state.events,
-          nextEvent: this.nextEvent(),
-          nextEventIdx: this.nextEventIdx(),
+          events,
+          nextEvent: nextEvent(events),
+          nextEventIdx: nextEventIdx(events),
           onQuickReservation: this.handleQuickReservation.bind(this),
           onFinishReservation: this.handleFinishReservation.bind(this),
           onShowSchedule: this.handleShowSchedule.bind(this)})

@@ -30,6 +30,7 @@ export default class EventDetails extends Component {
       return null;
     } else {
       return nextEvent.attendees.map((attendee, idx) => {
+        debugger
         return (
           <li key={idx}>{attendee.displayName || attendee.email}</li>
         );
