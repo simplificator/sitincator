@@ -46,6 +46,7 @@ export default class Schedule extends Component {
     const { events, nextEvent, nextEventIdx } = this.props;
     const displayedEvents = events.map((event, idx) => {
       let isNextEvent = (nextEventIdx === idx);
+      // used for scrolling down to the event right before the current one
       let isBeforeNext = (nextEventIdx === idx + 1);
       return (
         <div className="flex-container schedule-event" key={idx}>
