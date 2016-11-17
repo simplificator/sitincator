@@ -21,12 +21,20 @@ export default class Schedule extends Component {
     super(props);
   }
 
-  componentDidMount() {
+  scrollTimeLineIntoView() {
     this.refs.timeLinePosition.scrollIntoView({behavior: 'instant'});
   }
 
+  componentDidMount() {
+    if (this.refs.timeLinePosition) {
+      this.scrollTimeLineIntoView();
+    }
+  }
+
   componentDidUpdate() {
-    this.refs.timeLinePosition.scrollIntoView({behavior: 'instant'});
+    if (this.refs.timeLinePosition) {
+      this.scrollTimeLineIntoView();
+    }
   }
 
   timeLine() {

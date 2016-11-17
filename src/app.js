@@ -4,6 +4,7 @@ import { ipcRenderer } from 'electron';
 import { nextEvent, nextEventIdx } from './util';
 
 const STATUS_UPDATE_INTERVAL_MS = 60000;
+const MILLISECONDS_PER_MINUTE = 60000;
 
 function currentHash() {
   return window.location.hash;
@@ -41,6 +42,10 @@ export default class App extends Component {
   }
 
   handleQuickReservation(duration) {
+    // duration is in minutes
+    if (duration * MILLISECONDS_PER_MINUTE > this.timeToNextEvent()) {
+      return
+    }
     ipcRenderer.send('calendar:quick-reservation', duration);
   }
 
@@ -58,7 +63,10 @@ export default class App extends Component {
     }, STATUS_UPDATE_INTERVAL_MS);
   }
 
-
+  timeToNextEvent() {
+    const { events } = this.state;
+    return (Date.parse(nextEvent(events).start.dateTime) - Date.now()); // milliseconds
+  }
 
   render() {
     const { events } = this.state;
