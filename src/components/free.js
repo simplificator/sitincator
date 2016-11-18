@@ -6,7 +6,7 @@ import Button from './button';
 // should be placed in util.js
 const humanReadableDuration = (ms) => {
   // largest: max number of units to display, round: round to smallest unit displayed
-  return humanizeDuration(ms, { largest: 1, round: true });
+  return humanizeDuration(ms, { largest: 1, round: true, units: ['d', 'h', 'm'] });
 }
 
 const freeStatusSubMessage = (nextEvent) => {

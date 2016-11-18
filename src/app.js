@@ -43,9 +43,9 @@ export default class App extends Component {
 
   handleQuickReservation(duration) {
     // duration is in minutes
-    if (duration * MILLISECONDS_PER_MINUTE > this.timeToNextEvent()) {
-      return
-    }
+    // if (duration * MILLISECONDS_PER_MINUTE > this.timeToNextEvent()) {
+    //   return
+    // }
     ipcRenderer.send('calendar:quick-reservation', duration);
   }
 

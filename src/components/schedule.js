@@ -56,9 +56,11 @@ export default class Schedule extends Component {
       let isNextEvent = (nextEventIdx === idx);
       // used for scrolling down to the event right before the current one
       let isBeforeNext = (nextEventIdx === idx + 1);
+      let isLastEvent = (idx === events.length)
+      let lastAndNoUpcoming = ((nextEventIdx === -1) && isLastEvent)
       return (
         <div className="flex-container schedule-event" key={idx}>
-          {isBeforeNext ? <span ref="timeLinePosition"></span> : null}
+          {isBeforeNext || lastAndNoUpcoming ? <span ref="timeLinePosition"></span> : null}
           {(isNextEvent && !event.isCurrent) ? this.timeLine() : null }
           <EventDuration event={event} />
           {(isNextEvent && event.isCurrent) ? this.timeLine() : null }
@@ -66,6 +68,18 @@ export default class Schedule extends Component {
         </div>
       )
     })
+
+    //Special case where the time line is located after all events
+    if (nextEventIdx === -1) {
+        displayedEvents.push((
+          <div className="flex-container schedule-event" key={events.length}>
+            <span ref="timeLinePosition"></span>
+            <h3 className="schedule-event-name"></h3>
+            {this.timeLine()}
+          </div>
+          ));
+    }
+
     return (
       <ReactCSSTransitionGroup
         transitionName="fade"
