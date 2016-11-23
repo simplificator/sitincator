@@ -2,15 +2,10 @@ import humanizeDuration from 'humanize-duration';
 import { isEmpty } from 'lodash/lang';
 import React from 'react';
 import Button from './button';
-
-// should be placed in util.js
-const humanReadableDuration = (ms) => {
-  // largest: max number of units to display, round: round to smallest unit displayed
-  return humanizeDuration(ms, { largest: 1, round: true });
-}
+import { humanReadableDuration, timeToEvent } from './../util';
 
 const bookedStatusSubMessage = (nextEvent) => {
-  const remainingTime = humanReadableDuration(Date.parse(nextEvent.end.dateTime) - Date.now());
+  const remainingTime = humanReadableDuration(timeToEvent(nextEvent));
   return `for the next ${remainingTime}`;
 }
 

@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 import { browserHistory, Router, Route, IndexRoute, Link } from 'react-router'
 import { ipcRenderer } from 'electron';
 import { nextEvent, nextEventIdx } from './util';
-
-const STATUS_UPDATE_INTERVAL_MS = 60000;
-const MILLISECONDS_PER_MINUTE = 60000;
+import { STATUS_UPDATE_INTERVAL_MS, MILLISECONDS_PER_MINUTE } from './constants';
 
 function currentHash() {
   return window.location.hash;

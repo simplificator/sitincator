@@ -1,3 +1,5 @@
+import humanizeDuration from 'humanize-duration';
+
 export const nextEvent = (events) => {
   const now = new Date().getTime();
   const item = events.find((e) => {
@@ -28,4 +30,13 @@ export const nextEventIdx = (events) => {
       return true;
     };
   });
+}
+
+export const timeToEvent = (event) => {
+  return (Date.parse(event.end.dateTime) - Date.now());
+}
+
+export const humanReadableDuration = (ms) => {
+  // largest: max number of units to display, round: round to smallest unit displayed
+  return humanizeDuration(ms, { largest: 1, round: true, units: ['d', 'h', 'm'] });
 }

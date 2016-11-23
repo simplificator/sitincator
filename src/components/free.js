@@ -2,16 +2,20 @@ import humanizeDuration from 'humanize-duration';
 import { isEmpty } from 'lodash/lang';
 import React from 'react';
 import Button from './button';
-
-// should be placed in util.js
-const humanReadableDuration = (ms) => {
-  // largest: max number of units to display, round: round to smallest unit displayed
-  return humanizeDuration(ms, { largest: 1, round: true, units: ['d', 'h', 'm'] });
-}
+import { humanReadableDuration, timeToEvent } from './../util';
+import { MILLISECONDS_PER_MINUTE } from './../constants';
 
 const freeStatusSubMessage = (nextEvent) => {
-  const remainingTime = humanReadableDuration(Date.parse(nextEvent.start.dateTime) - Date.now());
+  const remainingTime = humanReadableDuration(timeToEvent(nextEvent));
   return `for the next ${remainingTime}`;
+}
+
+const lessThan15MinutesToEvent = (event) => {
+  return (!isEmpty(event) && timeToEvent(event) < 15 * MILLISECONDS_PER_MINUTE);
+}
+
+const lessThan30MinutesToEvent = (event) => {
+  return (!isEmpty(event) && timeToEvent(event) < 30 * MILLISECONDS_PER_MINUTE);
 }
 
 const Free = ({ nextEvent, onClick15, onClick30}) => {
@@ -21,8 +25,16 @@ const Free = ({ nextEvent, onClick15, onClick30}) => {
     <div className='status-details' key={1}>
       <h3>Quick Booking</h3>
       <div className="action-buttons multiple">
-        <Button icon="15-min" handleClick={onClick15}/>
-        <Button icon="30-min" handleClick={onClick30}/>
+        <Button
+          icon="15-min"
+          handleClick={onClick15}
+          disabled={lessThan15MinutesToEvent(nextEvent) ? true : false}
+        />
+        <Button
+          icon="30-min"
+          handleClick={onClick30}
+          disabled={lessThan30MinutesToEvent(nextEvent) ? true : false}
+        />
       </div>
       <h1>It&lsquo;s free</h1>
       <h2>{remainingTimeMessage}</h2>

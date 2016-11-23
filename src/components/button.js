@@ -2,9 +2,14 @@ import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 
 export default class Button extends Component {
-  static props = {
+  static propTypes = {
     icon: PropTypes.string.isRequired,
     handleClick: PropTypes.func.isRequired,
+    disabled: PropTypes.bool
+  }
+
+  static defaultProps = {
+    disabled: false
   }
 
   constructor(props) {
@@ -32,7 +37,8 @@ export default class Button extends Component {
     const iconClasses = classNames('icon', `icon-${this.props.icon}`);
     const btnClasses = classNames({
       clicked: this.state.clicked,
-    }, this.props.className);
+      disabled: this.props.disabled
+      }, this.props.className);
 
     return (
       <button onClick={this.handleClick} className={btnClasses} disabled={this.state.clicked}>

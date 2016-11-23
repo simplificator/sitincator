@@ -33,32 +33,32 @@ function createWindow () {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
-  const gcalApi = new gcal.GCal(process.env.CALENDAR_ID || gcal.CALENDAR_S8);
+  const gcalApi = new gcal.GCal(process.env.CALENDAR_ID || gcal.CALENDAR_S4);
   gcalApi.authorize()
     .then(client => {
       createWindow();
 
       ipcMain.on('calendar:list-events', event => client.listEvents()
         .then(items => event.sender.send('calendar:list-events-success', items))
-        .catch(error => event.sender.send('calendar:list-events-error', error))
+        .catch(error => event.sender.send('calendar:list-events-failure', error))
       );
 
       ipcMain.on('calendar:status-event', event => client.statusEvent()
         .then(item => event.sender.send('calendar:status-event-success', item))
-        .catch(error => event.sender.send('calendar:status-event-error', error))
+        .catch(error => event.sender.send('calendar:status-event-failure', error))
       );
 
       ipcMain.on('calendar:quick-reservation', (event, duration) => {
         client.insertEvent(duration)
           .then(response => event.sender.send('calendar:quick-reservation-success', response))
-          .catch(error => event.sender.send('calendar:quick-reservation-error', error));
+          .catch(error => event.sender.send('calendar:quick-reservation-failure', error));
         }
       );
 
       ipcMain.on('calendar:finish-reservation', (event, eventId) => {
         client.finishEvent(eventId)
           .then(response => event.sender.send('calendar:finish-reservation-success', response))
-          .catch(error => event.sender.send('calendar:finish-reservation-error', error));
+          .catch(error => event.sender.send('calendar:finish-reservation-failure', error));
       });
     })
     .catch(() => process.exit());
