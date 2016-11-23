@@ -1,3 +1,4 @@
+// initial fonts
 @font-face {
   font-family: 'Mark Pro';
   src: url('../fonts/MarkPro.otf');
@@ -21,4 +22,54 @@
 @font-face {
   font-family: 'Mark Pro Light';
   src: url('../fonts/MarkPro-Light.otf');
+}
+
+
+// new fonts
+@font-face {
+  font-family: 'Mark W01 Bold Italic';
+  src:url("../new_fonts/5423392/b0ab161f-4dc8-412e-8b6d-89a98e04c3e1.eot?#iefix");
+  src:url("../new_fonts/5423392/b0ab161f-4dc8-412e-8b6d-89a98e04c3e1.eot?#iefix") format("eot"),url("../new_fonts/5423392/6e8e8927-5a98-49ae-9123-db1798ec6d92.woff2") format("woff2"),url("../new_fonts/5423392/dbe0788d-533f-4e84-b346-1f68c19853f9.woff") format("woff"),url("../new_fonts/5423392/8aac5d38-8e50-4940-8cd1-ac406f070279.ttf") format("truetype");
+}
+
+@font-face{
+    font-family:"Mark W01 Bold";
+    src:url("../new_fonts/5423411/8706c0b6-b423-44f7-ae1a-dd0aabd8a542.eot?#iefix");
+    src:url("../new_fonts/5423411/8706c0b6-b423-44f7-ae1a-dd0aabd8a542.eot?#iefix") format("eot"),url("../new_fonts/5423411/41c8162d-c2a6-49b0-8139-8bebab187588.woff2") format("woff2"),url("../new_fonts/5423411/4fe94f2e-7892-4785-9663-0350a7adf8c0.woff") format("woff"),url("../new_fonts/5423411/3a7daddb-0a78-4734-a699-6fe08d0e8b99.ttf") format("truetype");
+}
+
+@font-face{
+    font-family:"Mark W01 Medium Italic";
+    src:url("../new_fonts/5423428/95f11cc5-c68b-40e2-bc2a-530a0f3f7127.eot?#iefix");
+    src:url("../new_fonts/5423428/95f11cc5-c68b-40e2-bc2a-530a0f3f7127.eot?#iefix") format("eot"),url("../new_fonts/5423428/a94b95d6-c02d-40c2-8579-15c27bc7ea8e.woff2") format("woff2"),url("../new_fonts/5423428/66744afd-99d0-4790-bf4c-5712b05b98e8.woff") format("woff"),url("../new_fonts/5423428/a2de3b36-8895-4e7a-93c4-3a072ca12d17.ttf") format("truetype");
+}
+
+@font-face{
+    font-family:"Mark W01 Medium";
+    src:url("../new_fonts/5423451/36390511-9c88-42f2-890f-1ae4b1e7dd70.eot?#iefix");
+    src:url("../new_fonts/5423451/36390511-9c88-42f2-890f-1ae4b1e7dd70.eot?#iefix") format("eot"),url("../new_fonts/5423451/72d3aeb4-7402-40d6-a945-34360316b980.woff2") format("woff2"),url("../new_fonts/5423451/f17f16a9-09cc-4170-a039-5f47a4948438.woff") format("woff"),url("../new_fonts/5423451/340db581-50b2-4783-8f40-db42ea764bda.ttf") format("truetype");
+}
+
+@font-face{
+    font-family:"Mark W01 Italic";
+    src:url("../new_fonts/5423464/0a2d27e2-c1ab-4b62-9052-222538e9c9d8.eot?#iefix");
+    src:url("../new_fonts/5423464/0a2d27e2-c1ab-4b62-9052-222538e9c9d8.eot?#iefix") format("eot"),url("../new_fonts/5423464/180febcd-caf1-4ffc-984b-bcc63860ce0b.woff2") format("woff2"),url("../new_fonts/5423464/b418767a-243c-4ee6-b022-bedf3b1a8658.woff") format("woff"),url("../new_fonts/5423464/8ac75167-e862-4750-a3e1-9e18a8a07195.ttf") format("truetype");
+}
+
+@font-face{
+    font-family:"Mark W01 Regular";
+    src:url("../new_fonts/5423483/230b3c63-b497-421b-ae7d-182024bef8ac.eot?#iefix");
+    src:url("../new_fonts/5423483/230b3c63-b497-421b-ae7d-182024bef8ac.eot?#iefix") format("eot"),url("../new_fonts/5423483/ec598369-4d91-4a16-9db3-6654f68d3c28.woff2") format("woff2"),url("../new_fonts/5423483/90214997-3760-4b80-a23b-fec02ab55fac.woff") format("woff"),url("../new_fonts/5423483/118e930e-1f56-4131-aee9-236212c0a10b.ttf") format("truetype");
+}
+
+@font-face{
+    font-family:"Mark W01 Light Italic";
+    src:url("../new_fonts/5423542/6b7037f4-1d79-4c1d-98ac-88582ff8a377.eot?#iefix");
+    src:url("../new_fonts/5423542/6b7037f4-1d79-4c1d-98ac-88582ff8a377.eot?#iefix") format("eot"),url("../new_fonts/5423542/63fdd036-2f81-483e-9ca9-d774353563af.woff2") format("woff2"),url("../new_fonts/5423542/31c5860c-aba6-4531-ade5-1cf6f23ac71b.woff") format("woff"),url("../new_fonts/5423542/368a1e82-428e-4a89-b49b-9475bfce6041.ttf") format("truetype");
+}
+
+@font-face{
+    font-family:"Mark W01 Light";
+    src:url("../new_fonts/5423562/a8abc20c-6ce3-48be-b25e-41ae3c6e0379.eot?#iefix");
+    src:url("../new_fonts/5423562/a8abc20c-6ce3-48be-b25e-41ae3c6e0379.eot?#iefix") format("eot"),url("../new_fonts/5423562/3d82d7a7-de70-4f67-85f4-78342de5fedb.woff2") format("woff2"),url("../new_fonts/5423562/23acf083-b36e-4baf-aabc-4935a5c4bdce.woff") format("woff"),url("../new_fonts/5423562/caf2b644-efc2-495e-af03-3b385d7de014.ttf") format("truetype");
 }
