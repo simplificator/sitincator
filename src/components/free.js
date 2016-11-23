@@ -36,7 +36,7 @@ const Free = ({ nextEvent, onClick15, onClick30}) => {
           disabled={lessThan30MinutesToEvent(nextEvent) ? true : false}
         />
       </div>
-      <h1>It&lsquo;s free</h1>
+      <h1>{"It's free"}</h1>
       <h2>{remainingTimeMessage}</h2>
     </div>
   );

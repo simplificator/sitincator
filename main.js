@@ -6,6 +6,14 @@ const path = require('path');
 
 let win;
 
+if (!process.env.CALENDAR_ID) {
+  console.error("Environment variable CALENDAR_ID not defined.");
+  console.error("For meeting room S4, use 'simplificator.com_9qdpsbfb444i9p2m6158dinha0@group.calendar.google.com'");
+  console.error("For meeting room S8, use 'simplificator.com_4926spv9kip34g6ko6ulqpnhrg@group.calendar.google.com'");
+  process.exit();
+
+}
+
 function createWindow () {
   // Create the browser window.
   win = new BrowserWindow({width: 480, height: 800});
@@ -29,11 +37,16 @@ function createWindow () {
   })
 }
 
+
+
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
-  const gcalApi = new gcal.GCal(process.env.CALENDAR_ID || gcal.CALENDAR_S4);
+
+
+  const gcalApi = new gcal.GCal(process.env.CALENDAR_ID);
   gcalApi.authorize()
     .then(client => {
       createWindow();
