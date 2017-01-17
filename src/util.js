@@ -33,7 +33,7 @@ export const nextEventIdx = (events) => {
 }
 
 export const timeToEvent = (event) => {
-  return (Date.parse(event.end.dateTime) - Date.now());
+  return (Date.parse(event.start.dateTime) - Date.now());
 }
 
 export const humanReadableDuration = (ms) => {
