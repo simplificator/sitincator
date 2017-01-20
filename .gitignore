@@ -48,3 +48,4 @@ build/*
 
 # Google Api
 credentials/*
+config/*
