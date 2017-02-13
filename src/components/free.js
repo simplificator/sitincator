@@ -1,4 +1,3 @@
-import humanizeDuration from 'humanize-duration';
 import { isEmpty } from 'lodash/lang';
 import React from 'react';
 import Button from './button';
@@ -8,15 +7,15 @@ import { MILLISECONDS_PER_MINUTE } from './../constants';
 const freeStatusSubMessage = (nextEvent) => {
   const remainingTime = humanReadableDuration(timeToEvent(nextEvent));
   return `for the next ${remainingTime}`;
-}
+};
 
 const lessThan15MinutesToEvent = (event) => {
   return (!isEmpty(event) && timeToEvent(event) < 15 * MILLISECONDS_PER_MINUTE);
-}
+};
 
 const lessThan30MinutesToEvent = (event) => {
   return (!isEmpty(event) && timeToEvent(event) < 30 * MILLISECONDS_PER_MINUTE);
-}
+};
 
 const Free = ({ nextEvent, onClick15, onClick30}) => {
   const remainingTimeMessage = isEmpty(nextEvent) ? null : freeStatusSubMessage(nextEvent);
@@ -28,18 +27,18 @@ const Free = ({ nextEvent, onClick15, onClick30}) => {
         <Button
           icon="15-min"
           handleClick={onClick15}
-          disabled={lessThan15MinutesToEvent(nextEvent) ? true : false}
+          className={lessThan15MinutesToEvent(nextEvent) ? 'hidden' : '' }
         />
         <Button
           icon="30-min"
           handleClick={onClick30}
-          disabled={lessThan30MinutesToEvent(nextEvent) ? true : false}
+          className={lessThan30MinutesToEvent(nextEvent) ? 'hidden' : '' }
         />
       </div>
       <h1>{"It's free"}</h1>
       <h2>{remainingTimeMessage}</h2>
     </div>
   );
-}
+};
 
 export default Free;
