@@ -1,11 +1,10 @@
-import humanizeDuration from 'humanize-duration';
 import { isEmpty } from 'lodash/lang';
 import React from 'react';
 import Button from './button';
-import { humanReadableDuration, timeToEvent } from './../util';
+import { humanReadableDuration, timeLeft } from './../util';
 
-const bookedStatusSubMessage = (nextEvent) => {
-  const remainingTime = humanReadableDuration(timeToEvent(nextEvent));
+const bookedStatusSubMessage = (currentEvent) => {
+  const remainingTime = humanReadableDuration(timeLeft(currentEvent));
   return `for the next ${remainingTime}`;
 }
 

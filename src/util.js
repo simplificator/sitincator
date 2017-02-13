@@ -2,41 +2,46 @@ import humanizeDuration from 'humanize-duration';
 
 export const nextEvent = (events) => {
   const now = new Date().getTime();
-  const item = events.find((e) => {
-    const start = new Date(e.start.dateTime).getTime();
-    const end = new Date(e.end.dateTime).getTime();
-    if (now > start && now < end) {
-      e.isCurrent = true
-      return true;
-    }
-    if (now < start) {
-      return true;
-    };
+
+  const sortedEvents = events.sort(function(a, b) {
+    return new Date(a.start.dateTime).getTime() - new Date(b.start.dateTime).getTime();
   });
-  return item || {};
-}
+
+  const futureEvents = sortedEvents.filter(function(event) {
+    return new Date(event.start.dateTime).getTime() > now;
+  });
+
+  return futureEvents[0] || {};
+};
 
 export const nextEventIdx = (events) => {
-  return events.findIndex((e) => {
-    const now = new Date().getTime()
-    const start = new Date(e.start.dateTime).getTime();
-    const end = new Date(e.end.dateTime).getTime();
+  const nextEvent = exports.nextEvent(events);
 
-    if (now > start && now < end) {
-      e.isCurrent = true
-      return true;
-    }
-    if (now < start) {
-      return true;
-    };
+  return events.indexOf(nextEvent);
+};
+
+export const currentEvent = (events) => {
+  const now = new Date().getTime();
+
+  const currentEvents = events.filter(function(event) {
+    const eventStart = new Date(event.start.dateTime).getTime();
+    const eventEnd = new Date(event.end.dateTime).getTime();
+
+    return eventStart <= now && eventEnd >= now;
   });
-}
+
+  return currentEvents[0] || {};
+};
 
 export const timeToEvent = (event) => {
   return (Date.parse(event.start.dateTime) - Date.now());
-}
+};
+
+export const timeLeft = (event) => {
+  return Date.parse(event.end.dateTime) - Date.now();
+};
 
 export const humanReadableDuration = (ms) => {
-  // largest: max number of units to display, round: round to smallest unit displayed 
+  // largest: max number of units to display, round: round to smallest unit displayed
   return humanizeDuration(ms, { largest: 1, round: true, units: ['d', 'h', 'm'] });
-}
+};

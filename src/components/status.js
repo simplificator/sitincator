@@ -10,6 +10,7 @@ import Booked from './booked';
 export default class Status extends Component {
   static propTypes = {
     events: PropTypes.array,
+    currentEvent: PropTypes.object,
     nextEvent: PropTypes.object,
     nextEventIdx: PropTypes.number,
     onQuickReservation: PropTypes.func,
@@ -31,16 +32,16 @@ export default class Status extends Component {
   }
 
   isBooked() {
-    const { nextEvent } = this.props;
+    const { currentEvent } = this.props;
     const now = Date.now();
 
-    return Object.keys(nextEvent).length > 0
-      && Date.parse(nextEvent.start.dateTime) <= now
-      && Date.parse(nextEvent.end.dateTime) > now;
+    return Object.keys(currentEvent).length > 0
+      && Date.parse(currentEvent.start.dateTime) <= now
+      && Date.parse(currentEvent.end.dateTime) > now;
   }
 
   render() {
-    const { nextEvent, onQuickReservation, onFinishReservation, onShowSchedule } = this.props;
+    const { nextEvent, currentEvent, onQuickReservation, onFinishReservation, onShowSchedule } = this.props;
     const { detailsExpanded } = this.state;
     const rootClasses = classNames({
       'status-view': true,
@@ -51,7 +52,7 @@ export default class Status extends Component {
     let statusComponent = this.isBooked() ?
       <Booked
         onClick={() => onFinishReservation(nextEvent.id)}
-        nextEvent={nextEvent}
+        nextEvent={currentEvent}
         key={1}
       /> :
       <Free

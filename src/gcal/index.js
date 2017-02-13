@@ -52,7 +52,7 @@ function readOauth2Token(oauth2Client) {
           if (err) {
             return reject(oauth2TokenInstructions(oauth2Client));
           }
-          oauth2Client.getToken(JSON.parse(code), (err, token) => {
+          oauth2Client.getToken(code, (err, token) => {
             if (err) {
               console.log('Error while trying to retrieve access token', err);
               return reject(err);
@@ -85,6 +85,9 @@ exports.GCal = class GCal {
         oauth2Client.credentials = token;
         return new Client(_calendarId, oauth2Client);
       });
+    }).catch(function(error) {
+      console.log(error);
+      exit(1);
     });
   }
-}
+};

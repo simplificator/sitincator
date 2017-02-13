@@ -17,7 +17,9 @@ if (!process.env.CALENDAR_ID) {
 function createWindow () {
   // Create the browser window.
   win = new BrowserWindow({width: 480, height: 800});
-  win.setFullScreen(true);
+
+  if (process.env.NODE_ENV !== 'development')
+    win.setFullScreen(true);
 
   if (process.env.NODE_ENV === 'development') {
     win.webContents.openDevTools();

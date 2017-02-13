@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { browserHistory, Router, Route, IndexRoute, Link } from 'react-router'
 import { ipcRenderer } from 'electron';
-import { nextEvent, nextEventIdx } from './util';
+import { currentEvent, nextEvent, nextEventIdx } from './util';
 import { STATUS_UPDATE_INTERVAL_MS, MILLISECONDS_PER_MINUTE } from './constants';
 
 function currentHash() {
@@ -61,11 +61,6 @@ export default class App extends Component {
     }, STATUS_UPDATE_INTERVAL_MS);
   }
 
-  timeToNextEvent() {
-    const { events } = this.state;
-    return (Date.parse(nextEvent(events).start.dateTime) - Date.now()); // milliseconds
-  }
-
   render() {
     const { events } = this.state;
     const footerText = isStatusView() ?
@@ -76,6 +71,7 @@ export default class App extends Component {
       <div id="app">
         {React.cloneElement(this.props.children, {
           events,
+          currentEvent: currentEvent(events),
           nextEvent: nextEvent(events),
           nextEventIdx: nextEventIdx(events),
           onQuickReservation: this.handleQuickReservation.bind(this),
