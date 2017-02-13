@@ -51,8 +51,8 @@ export default class Status extends Component {
 
     let statusComponent = this.isBooked() ?
       <Booked
-        onClick={() => onFinishReservation(nextEvent.id)}
-        nextEvent={currentEvent}
+        onClick={() => onFinishReservation(currentEvent.id)}
+        currentEvent={currentEvent}
         key={1}
       /> :
       <Free

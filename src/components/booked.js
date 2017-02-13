@@ -8,8 +8,8 @@ const bookedStatusSubMessage = (currentEvent) => {
   return `for the next ${remainingTime}`;
 }
 
-const Booked = ({ nextEvent, onClick}) => {
-  const remainingTimeMessage = isEmpty(nextEvent) ? null : bookedStatusSubMessage(nextEvent);
+const Booked = ({ currentEvent, onClick}) => {
+  const remainingTimeMessage = isEmpty(currentEvent) ? null : bookedStatusSubMessage(currentEvent);
 
   return (
     <div className='status-details' key={1}>
