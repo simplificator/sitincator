@@ -45,3 +45,15 @@ export const humanReadableDuration = (ms) => {
   // largest: max number of units to display, round: round to smallest unit displayed
   return humanizeDuration(ms, { largest: 1, round: true, units: ['d', 'h', 'm'] });
 };
+
+export const isCurrent = (event) => {
+  return timeToEvent(event) <= 0 && timeLeft(event) >= 0;
+};
+
+export const isBeforeNow = (event) => {
+  return timeLeft(event) < 0;
+};
+
+export const isAfterNow = (event) => {
+  return timeToEvent(event) > 0;
+};

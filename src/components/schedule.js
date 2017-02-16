@@ -2,10 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import { ipcRenderer } from 'electron';
 import moment from 'moment';
 import EventDuration from './event_duration';
-import { isEmpty } from 'lodash/lang';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-
-const STATUS_UPDATE_INTERVAL_MS = 60000;
+import { isCurrent, timeLeft, isBeforeNow, isAfterNow } from '../util';
 
 export default class Schedule extends Component {
   static propTypes = {
@@ -51,33 +49,31 @@ export default class Schedule extends Component {
   }
 
   render() {
-    const { events, nextEvent, nextEventIdx } = this.props;
-    const displayedEvents = events.map((event, idx) => {
-      let isNextEvent = (nextEventIdx === idx);
-      // used for scrolling down to the event right before the current one
-      let isBeforeNext = (nextEventIdx === idx + 1);
-      let isLastEvent = (idx === events.length)
-      let lastAndNoUpcoming = ((nextEventIdx === -1) && isLastEvent)
+    const { events } = this.props;
+    const displayedEvents = events.map((event, index) => {
+      let eventBefore = index > 0 ? events[index-1] : null;
+      let isBefore = eventBefore ? isBeforeNow(eventBefore) && isAfterNow(event) : isAfterNow(event);
+
       return (
-        <div className="flex-container schedule-event" key={idx}>
-          {isBeforeNext || lastAndNoUpcoming ? <span ref="timeLinePosition"></span> : null}
-          {(isNextEvent && !event.isCurrent) ? this.timeLine() : null }
+        <div className="flex-container schedule-event" key={index}>
+          {isBefore ? <span ref="timeLinePosition"></span> : null}
+          {isBefore ? this.timeLine() : null }
           <EventDuration event={event} />
-          {(isNextEvent && event.isCurrent) ? this.timeLine() : null }
+          {(isCurrent(event)) ? this.timeLine() : null }
           <h3 className="schedule-event-name">{event.summary}</h3>
         </div>
       )
-    })
+    });
 
-    //Special case where the time line is located after all events
-    if (nextEventIdx === -1) {
-        displayedEvents.push((
-          <div className="flex-container schedule-event" key={events.length}>
-            <span ref="timeLinePosition"></span>
-            <h3 className="schedule-event-name"></h3>
-            {this.timeLine()}
-          </div>
-          ));
+    // Special case where the time line is located after all events
+    if (events.length > 0 && timeLeft(events[events.length-1]) < 0) {
+      displayedEvents.push((
+        <div className="flex-container schedule-event" key={events.length}>
+          <span ref="timeLinePosition"></span>
+          <h3 className="schedule-event-name"></h3>
+          {this.timeLine()}
+        </div>
+      ));
     }
 
     return (

@@ -6,7 +6,8 @@ import EventDuration from './event_duration';
 
 export default class EventDetails extends Component {
   static props = {
-    nextEvent: PropTypes.object,
+    event: PropTypes.object,
+    isCurrent: PropTypes.bool,
     expanded: PropTypes.bool,
     handleShowSchedule: PropTypes.func.isRequired,
     handleExpandDetails: PropTypes.func.isRequired,
@@ -25,25 +26,25 @@ export default class EventDetails extends Component {
   }
 
   attendees() {
-    const { nextEvent } = this.props;
-    if (!nextEvent.attendees) {
+    const { event } = this.props;
+    if (!event.attendees) {
       return null;
     } else {
-      return nextEvent.attendees.map((attendee, idx) => {
+      return event.attendees.map((attendee, index) => {
         if (attendee.resource) {
           return null;
         }
         return (
-          <li key={idx}>{attendee.displayName || attendee.email}</li>
+          <li key={index}>{attendee.displayName || attendee.email}</li>
         );
       })
     }
   }
 
   render() {
-    const { nextEvent, expanded } = this.props;
+    const { event, isCurrent, expanded } = this.props;
 
-    if (isEmpty(nextEvent)) {
+    if (isEmpty(event)) {
       return (
         <div className='event-details flex-container'>
           <h3 className="event-details-status">
@@ -63,11 +64,11 @@ export default class EventDetails extends Component {
       <div className='event-details flex-container'>
         <Button icon="arrow-up" className={btnClasses} handleClick={this.handleExpandDetails.bind(this)}/>
         <h3 className="event-details-status">
-          {nextEvent.isCurrent ? 'CURRENT MEETING' : 'COMING UP'}
+          {isCurrent ? 'CURRENT MEETING' : 'COMING UP'}
         </h3>
-        <h3 className="event-details-name">{nextEvent.summary}</h3>
-        <EventDuration event={nextEvent} />
-        <p className="event-details-creator">{nextEvent.creator.displayName || nextEvent.creator.email}</p>
+        <h3 className="event-details-name">{event.summary}</h3>
+        <EventDuration event={event} />
+        <p className="event-details-creator">{event.creator.displayName || event.creator.email}</p>
         <ul className="event-details-attendees">{this.attendees()}</ul>
       </div>
     );

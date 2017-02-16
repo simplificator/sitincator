@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import Free from './free';
 import Booked from './booked';
-
+import { isEmpty } from 'lodash/lang';
 
 
 export default class Status extends Component {
@@ -62,6 +62,7 @@ export default class Status extends Component {
         key={1}
       />;
 
+    let isCurrent = !isEmpty(currentEvent);
 
     return (
       <div className={rootClasses}>
@@ -74,7 +75,8 @@ export default class Status extends Component {
           {statusComponent}
         </ReactCSSTransitionGroup>
         <EventDetails
-          nextEvent={nextEvent}
+          event={isEmpty(currentEvent) ? nextEvent : currentEvent}
+          isCurrent={isCurrent}
           expanded={detailsExpanded}
           handleExpandDetails={this.handleExpandDetails.bind(this)}
           handleShowSchedule={onShowSchedule}

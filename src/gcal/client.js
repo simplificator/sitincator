@@ -91,7 +91,6 @@ module.exports = class Client {
           const start = new Date(e.start.dateTime).getTime();
           const end = new Date(e.end.dateTime).getTime();
           if (now > start && now < end) {
-            e.isCurrent = true
             return true;
           }
           if (now < start) {
