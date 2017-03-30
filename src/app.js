@@ -27,7 +27,6 @@ export default class App extends Component {
     this.setUpdateDisplayedEventsInterval();
 
     ipcRenderer.on('calendar:list-events-success', (event, events) => {
-      console.log("here", window.location.hash, isCheckConnectionView())
       if (isCheckConnectionView()) {
         window.location.hash = 'status';
       }
@@ -46,7 +45,6 @@ export default class App extends Component {
   }
 
   componentWillUnmount() {
-    console.log('unmounting')
     ipcRenderer.removeAllListeners();
     clearInterval(this.updateEventsInterval);
   }
