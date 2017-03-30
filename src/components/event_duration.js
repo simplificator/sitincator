@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import { isEmpty } from 'lodash/lang';
+import { isAllDayEvent } from '../util';
 
 export default class EventDuration extends Component {
   constructor(props) {
@@ -16,8 +17,14 @@ export default class EventDuration extends Component {
       return null;
     }
 
+    const isAllDay = isAllDayEvent(event)
     return (
-      <p className="event-duration">{`${startTime.format("H:mm")} - ${endTime.format("H:mm")}`}</p>
+      <p className="event-duration">
+        {isAllDay ?
+          'All Day Event' :
+          `${startTime.format("H:mm")} - ${endTime.format("H:mm")}`
+        }
+      </p>
     );
   }
 }

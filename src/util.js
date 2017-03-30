@@ -57,3 +57,7 @@ export const isBeforeNow = (event) => {
 export const isAfterNow = (event) => {
   return timeToEvent(event) > 0;
 };
+
+export const isAllDayEvent = (event) => {
+  return event.isAllDay;
+};

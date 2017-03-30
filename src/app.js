@@ -12,6 +12,10 @@ function isStatusView() {
   return /status/.test(currentHash());
 }
 
+const isCheckConnectionView = () => {
+  return /check_connection/.test(currentHash());
+}
+
 export default class App extends Component {
   constructor(props) {
     super(props);
@@ -23,9 +27,16 @@ export default class App extends Component {
     this.setUpdateDisplayedEventsInterval();
 
     ipcRenderer.on('calendar:list-events-success', (event, events) => {
+      console.log("here", window.location.hash, isCheckConnectionView())
+      if (isCheckConnectionView()) {
+        window.location.hash = 'status';
+      }
+      events = this.processEvents(events);
       this.setState({events})
     });
-    ipcRenderer.on('calendar:list-events-failure', (event, error) => console.error(error));
+    ipcRenderer.on('calendar:list-events-failure', (event, error) => {
+      window.location.hash = 'check_connection';
+    });
 
     ipcRenderer.on('calendar:quick-reservation-success', (event, events) => this.setState({ events }));
     ipcRenderer.on('calendar:quick-reservation-failure', (event, error) => console.error(error));
@@ -35,8 +46,43 @@ export default class App extends Component {
   }
 
   componentWillUnmount() {
+    console.log('unmounting')
     ipcRenderer.removeAllListeners();
     clearInterval(this.updateEventsInterval);
+  }
+
+  processEvents(events) {
+    events = this.markAllDayEvents(events);
+    events = this.removeUnconfirmedEvents(events);
+    return events
+  }
+
+  markAllDayEvents(events) {
+    return events.map((event) => {
+      if (event.start.dateTime) {
+        return {
+          ...event,
+          isAllDay: false,
+        }
+      } else {  // all day events received from api call don't have the dateTime field
+        const start = new Date(event.start.date);
+        start.setHours(0);
+        const end = new Date(event.end.date);
+        end.setHours(0);
+        return {
+          ...event,
+          start: {...event.start, dateTime: start},
+          end: {...event.end, dateTime: end},
+          isAllDay: true,
+        }
+      }
+    })
+  }
+
+  removeUnconfirmedEvents(events) {
+    return events.filter(event => {
+      return event.status === 'confirmed';
+    });
   }
 
   handleQuickReservation(duration) {
