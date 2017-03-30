@@ -21,13 +21,13 @@ function createWindow () {
   if (process.env.NODE_ENV !== 'development')
     win.setFullScreen(true);
 
-  // if (process.env.NODE_ENV === 'development') {
-  //   win.webContents.openDevTools();
-  //   BrowserWindow.addDevToolsExtension(path.join(
-  //     process.env.HOME,
-  //     'Library/Application Support/Google/Chrome/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/0.15.4_0')
-  //   );
-  // }
+  if (process.env.NODE_ENV === 'development') {
+    win.webContents.openDevTools();
+    BrowserWindow.addDevToolsExtension(path.join(
+      process.env.HOME,
+      'Library/Application Support/Google/Chrome/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/0.15.4_0')
+    );
+  }
 
   win.loadURL(`file://${__dirname}/index.html`);
 
