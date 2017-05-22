@@ -8,7 +8,7 @@ The system shows the current occupancy of the meeting room on the display, all m
 
 Clone the repository and build a package for the Raspberry Pi:
 
-    git clone https://github.com/simplificator/sitincator.git
+    git clone git://github.com/simplificator/sitincator.git
     npm install
     npm run build:pi
 
