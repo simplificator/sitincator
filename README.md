@@ -16,20 +16,37 @@ Required components for the displays:
 
 ## Software
 
-Clone the repository and build a package for the Raspberry Pi:
+### Development Setup
+
+It is not recommended to run the following setup on a Raspberry Pi. The installation of the correct node version and the required npm packages is quite a burden for the Raspberry Pi and takes a long time to complete, if successful. The setup has been tested on recent versions of OS X.
+
+Node requirement: `v6`
+
+    git clone git://github.com/simplificator/sitincator.git
+    cd sitincator
+    npm install
+    mkdir {config,credentials}
+
+- Follow [Google's guide][1] to obtain the OAuth JSON file and store it in `config/client_secret.json`.
+- Tell Sitincator which calendar to use (the calendar ID can be found on the settings page of your calendar in Google Calendar): `export CALENDAR_ID='...'`
+- Start it: `npm start`
+- Open the link printed in your terminal, login with the same user as before to obtain the OAuth JSON file and authorize the app to access the Google's API. You now get a token in the browser.
+- Save that token to a file named `credentials/token.json`. The file should not contain any other characters than the token itself (it has no special formatting): `echo 'my_token' > credentials/token.json`
+- Start webpack (note that this process is blocking, you could also start it in the background): `npm run watch`
+- Start the application again: `npm start`
+
+### Installation on the Raspberry Pi
+
+It is recommended to build the package for the Raspberry Pi on a x86 machine:
 
     git clone git://github.com/simplificator/sitincator.git
     cd sitincator
     npm install
     npm run build:pi
 
-The package for the Raspberry Pi now resides in `./Sitincator-linux-armv7l`. You can launch the app by calling `./Sitincator-linux-armv7l/Sitincator`.
+The package for the Raspberry Pi now resides in `./Sitincator-linux-armv7l`. You can launch the app by copying the directory to your Raspberry Pi 3 and calling `./Sitincator-linux-armv7l/Sitincator`.
 
-## Development Setup
-
-- Follow [Google's guide][1] to obtain the OAuth JSON file and store it in `config/client_secret.json`.
-- Tell Sitincator which calendar to use: `export CALENDAR_ID='...'`
-- Start it: `npm start`
+Note that you need to configure `config` and `credentials` as outlined in `Development Setup`.
 
 [1]: https://developers.google.com/google-apps/calendar/quickstart/nodejs#step_1_turn_on_the_api_name
 
