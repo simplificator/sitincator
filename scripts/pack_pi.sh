@@ -16,4 +16,4 @@ NODE_ENV=production npm install
 rm -rf Sitincator-linux-armv7l
 npm run pack:pi
 rm Sitincator-linux-armv7l/resources/app/{config,credentials}/*
-zip -y Sitincator-linux-armv7l.zip Sitincator-linux-armv7l/*
+zip -yr Sitincator-linux-armv7l.zip Sitincator-linux-armv7l/*
