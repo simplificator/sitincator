@@ -1,4 +1,5 @@
 #!/bin/sh
+# Script to build a release package to upload to Github
 
 GIT_DIR=$(pwd)
 cd /tmp
@@ -13,6 +14,6 @@ rm -rf node_modules
 
 NODE_ENV=production npm install
 rm -rf Sitincator-linux-armv7l
-npm run build:pi
+npm run pack:pi
 rm Sitincator-linux-armv7l/resources/app/{config,credentials}/*
 zip -y Sitincator-linux-armv7l.zip Sitincator-linux-armv7l/*

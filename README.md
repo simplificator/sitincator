@@ -39,7 +39,8 @@ It is recommended to build the package for the Raspberry Pi on a x86 machine:
     git clone git://github.com/simplificator/sitincator.git
     cd sitincator
     npm install
-    npm run build:pi
+    npm run build
+    npm run pack:pi
 
 The package for the Raspberry Pi now resides in `./Sitincator-linux-armv7l`. You can launch the app by copying the directory to your Raspberry Pi 3 and calling `./Sitincator-linux-armv7l/Sitincator`.
 

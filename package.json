@@ -10,7 +10,8 @@
     "build-dev": "node_modules/.bin/webpack",
     "build": "NODE_ENV=production node_modules/.bin/webpack -p --config webpack.prod.config.js",
     "watch": "./node_modules/.bin/webpack-dev-server --hot --inline",
-    "build:pi": "./node_modules/.bin/electron-packager . Sitincator --platform=linux --arch=armv7l"
+    "pack": "./node_modules/.bin/electron-packager . Sitincator",
+    "pack:pi": "./node_modules/.bin/electron-packager . Sitincator --platform=linux --arch=armv7l"
   },
   "repository": {
     "type": "git",
