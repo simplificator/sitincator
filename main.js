@@ -3,6 +3,7 @@ const { app, BrowserWindow, ipcMain } = require('electron');
 const google = require('googleapis');
 const gcal = require('./src/gcal');
 const fs = require('fs');
+const readline = require('readline');
 
 let win;
 
@@ -16,25 +17,56 @@ function createDirectory(directory) {
   }
 }
 
-function readConfiguration() {
+function writeConfiguration(calendar_id) {
+  return new Promise((resolve, reject) => {
+    let configuration = { calendar_id: calendar_id };
+    fs.writeFile('config/sitincator.json', JSON.stringify(configuration), error => {
+      if(error)
+        reject(error);
+      else
+        resolve(configuration);
+    });
+  });
+}
+
+function askForCalendarId() {
+  return new Promise((resolve, reject) => {
+    const rl = readline.createInterface({
+      input: process.stdin,
+      output: process.stdout
+    });
+
+    rl.question('Enter the calendar ID (found on the settings page of your calendar in Google Calendar): ', (answer) => {
+      resolve(answer);
+    });
+  });
+}
+
+function readConfigurationFile() {
   return new Promise((resolve, reject) => {
     fs.readFile('config/sitincator.json', (error, content) => {
-      if (error) {
-        if(error.code == 'ENOENT') {
-          let configuration = { calendar_id: '' };
-          fs.writeFile('config/sitincator.json', JSON.stringify(configuration), error => {
-            if(error)
-              reject(error);
-            else
-              resolve(configuration);
-          });
-        }
-        else
-          reject(error);
-      }
+      if (error)
+        reject(error);
       else
         resolve(JSON.parse(content));
     });
+  });
+}
+
+function readConfiguration() {
+  return new Promise((resolve, reject) => {
+    readConfigurationFile()
+      .then(configuration => resolve(configuration))
+      .catch(error => {
+        if(error.code != 'ENOENT')
+          reject(error);
+        else {
+          askForCalendarId()
+            .then(writeConfiguration)
+            .then(configuration => resolve(configuration))
+            .catch(error => reject(error));
+        }
+      });
   });
 }
 

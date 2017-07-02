@@ -36,7 +36,7 @@ function oauth2TokenInstructions(oauth2Client) {
         output: process.stdout
       });
 
-      rl.question('Enter the obtained API token:', (answer) => {
+      rl.question('Enter the obtained API token: ', (answer) => {
         resolve_question(answer);
       });
     });
