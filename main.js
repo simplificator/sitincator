@@ -4,6 +4,10 @@ const google = require('googleapis');
 const gcal = require('./src/gcal');
 const fs = require('fs');
 const readline = require('readline');
+const path = require('path');
+
+const CONFIG_DIR = path.resolve(__dirname, './config');
+const SITINCATOR_CONFIG = path.resolve(CONFIG_DIR, 'sitincator.json');
 
 let win;
 
@@ -20,7 +24,7 @@ function createDirectory(directory) {
 function writeConfiguration(calendar_id) {
   return new Promise((resolve, reject) => {
     let configuration = { calendar_id: calendar_id };
-    fs.writeFile('config/sitincator.json', JSON.stringify(configuration), error => {
+    fs.writeFile(SITINCATOR_CONFIG, JSON.stringify(configuration), error => {
       if(error)
         reject(error);
       else
@@ -44,7 +48,7 @@ function askForCalendarId() {
 
 function readConfigurationFile() {
   return new Promise((resolve, reject) => {
-    fs.readFile('config/sitincator.json', (error, content) => {
+    fs.readFile(SITINCATOR_CONFIG, (error, content) => {
       if (error)
         reject(error);
       else

@@ -7,12 +7,14 @@ const googleAuth = require('google-auth-library');
 const Client = require('./client');
 
 const CREDENTIALS_DIR = path.resolve(__dirname, '../../credentials');
+const CONFIG_DIR = path.resolve(__dirname, '../../config');
 const API_TOKEN = path.resolve(CREDENTIALS_DIR, 'token.json');
 const SITINCATOR_TOKEN = path.resolve(CREDENTIALS_DIR, 'sitincator.json');
+const GOOGLE_CLIENT_SECRET = path.resolve(CONFIG_DIR, 'client_secret.json');
 
 function readCredentials() {
   return new Promise((resolve, reject) => {
-    fs.readFile('config/client_secret.json', (err, content) => {
+    fs.readFile(GOOGLE_CLIENT_SECRET, (err, content) => {
       if (err)
         reject(err);
       else
