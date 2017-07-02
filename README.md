@@ -28,11 +28,10 @@ Node requirement: `v6`
     mkdir {config,credentials}
 
 - Follow [Google's guide][1] to obtain the OAuth JSON file and store it in `config/client_secret.json`.
-- Start it: `npm start`
-- Open the link printed in your terminal, login with the same user as before to obtain the OAuth JSON file and authorize the app to access the Google's API. You now get a token in the browser. Enter that token in the terminal's prompt.
-- Tell Sitincator which calendar to use (the calendar ID can be found on the settings page of your calendar in Google Calendar): open `config/sitincator.js` and add the calendar ID as a value of `calendar_id`.
 - Start webpack (note that this process is blocking, you could also start it in the background): `npm run watch`
-- Start the application again: `npm start`
+- Start the application: `npm start`
+- You are asked to enter the calendar ID (the calendar ID can be found on the settings page of your calendar in Google Calendar)
+- Open the link printed in your terminal, login with the same user as before to obtain the OAuth JSON file and authorize the app to access Google's API. You now get a token in the browser. Enter that token in the terminal's prompt.
 
 ### Installation on the Raspberry Pi
 
