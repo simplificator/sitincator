@@ -8,5 +8,6 @@ cd /tmp
 unzip /tmp/Sitincator-linux-armv7l.zip
 
 killall Sitincator
+mkdir /home/pi/Sitincator
 cp -R /tmp/Sitincator-linux-armv7l/* /home/pi/Sitincator/
 /home/pi/Sitincator/Sitincator
