@@ -28,10 +28,9 @@ Node requirement: `v6`
     mkdir {config,credentials}
 
 - Follow [Google's guide][1] to obtain the OAuth JSON file and store it in `config/client_secret.json`.
-- Tell Sitincator which calendar to use (the calendar ID can be found on the settings page of your calendar in Google Calendar): `export CALENDAR_ID='...'`
 - Start it: `npm start`
-- Open the link printed in your terminal, login with the same user as before to obtain the OAuth JSON file and authorize the app to access the Google's API. You now get a token in the browser.
-- Save that token to a file named `credentials/token.json`. The file should not contain any other characters than the token itself (it has no special formatting): `echo 'my_token' > credentials/token.json`
+- Open the link printed in your terminal, login with the same user as before to obtain the OAuth JSON file and authorize the app to access the Google's API. You now get a token in the browser. Enter that token in the terminal's prompt.
+- Tell Sitincator which calendar to use (the calendar ID can be found on the settings page of your calendar in Google Calendar): open `config/sitincator.js` and add the calendar ID as a value of `calendar_id`.
 - Start webpack (note that this process is blocking, you could also start it in the background): `npm run watch`
 - Start the application again: `npm start`
 

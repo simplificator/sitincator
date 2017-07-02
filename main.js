@@ -2,78 +2,95 @@ const { app, BrowserWindow, ipcMain } = require('electron');
 
 const google = require('googleapis');
 const gcal = require('./src/gcal');
-const path = require('path');
+const fs = require('fs');
 
 let win;
 
-if (!process.env.CALENDAR_ID) {
-  console.error("Environment variable CALENDAR_ID not defined.");
-  console.error("For meeting room S4, use 'simplificator.com_9qdpsbfb444i9p2m6158dinha0@group.calendar.google.com'");
-  console.error("For meeting room S8, use 'simplificator.com_4926spv9kip34g6ko6ulqpnhrg@group.calendar.google.com'");
-  process.exit();
+function createDirectory(directory) {
+  try {
+    fs.mkdirSync(directory);
+  } catch (err) {
+    if (err.code != 'EEXIST') {
+      throw err;
+    }
+  }
+}
 
+function readConfiguration() {
+  return new Promise((resolve, reject) => {
+    fs.readFile('config/sitincator.json', (error, content) => {
+      if (error) {
+        if(error.code == 'ENOENT') {
+          let configuration = { calendar_id: '' };
+          fs.writeFile('config/sitincator.json', JSON.stringify(configuration), error => {
+            if(error)
+              reject(error);
+            else
+              resolve(configuration);
+          });
+        }
+        else
+          reject(error);
+      }
+      else
+        resolve(JSON.parse(content));
+    });
+  });
 }
 
 function createWindow () {
-  // Create the browser window.
   win = new BrowserWindow({width: 480, height: 800});
 
   if (process.env.NODE_ENV !== 'development')
     win.setFullScreen(true);
 
-  if (process.env.NODE_ENV === 'development') {
+  if (process.env.NODE_ENV === 'development')
     win.webContents.openDevTools();
-  }
 
   win.loadURL(`file://${__dirname}/index.html`);
 
-  // Emitted when the window is closed.
   win.on('closed', () => {
-    // Dereference the window object, usually you would store windows
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
+    // Dereference the window object
     win = null;
-  })
+  });
 }
 
-
-
-
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
 app.on('ready', () => {
+  readConfiguration()
+    .then(configuration => {
+      const gcalApi = new gcal.GCal(configuration.calendar_id);
+      gcalApi.authorize()
+        .then(client => {
+          createWindow();
 
+          ipcMain.on('calendar:list-events', event => client.listEvents()
+            .then(items => event.sender.send('calendar:list-events-success', items))
+            .catch(error => event.sender.send('calendar:list-events-failure', error))
+          );
 
-  const gcalApi = new gcal.GCal(process.env.CALENDAR_ID);
-  gcalApi.authorize()
-    .then(client => {
-      createWindow();
+          ipcMain.on('calendar:status-event', event => client.statusEvent()
+            .then(item => event.sender.send('calendar:status-event-success', item))
+            .catch(error => event.sender.send('calendar:status-event-failure', error))
+          );
 
-      ipcMain.on('calendar:list-events', event => client.listEvents()
-        .then(items => event.sender.send('calendar:list-events-success', items))
-        .catch(error => event.sender.send('calendar:list-events-failure', error))
-      );
+          ipcMain.on('calendar:quick-reservation', (event, duration) => {
+            client.insertEvent(duration)
+              .then(response => event.sender.send('calendar:quick-reservation-success', response))
+              .catch(error => event.sender.send('calendar:quick-reservation-failure', error));
+            }
+          );
 
-      ipcMain.on('calendar:status-event', event => client.statusEvent()
-        .then(item => event.sender.send('calendar:status-event-success', item))
-        .catch(error => event.sender.send('calendar:status-event-failure', error))
-      );
-
-      ipcMain.on('calendar:quick-reservation', (event, duration) => {
-        client.insertEvent(duration)
-          .then(response => event.sender.send('calendar:quick-reservation-success', response))
-          .catch(error => event.sender.send('calendar:quick-reservation-failure', error));
-        }
-      );
-
-      ipcMain.on('calendar:finish-reservation', (event, eventId) => {
-        client.finishEvent(eventId)
-          .then(response => event.sender.send('calendar:finish-reservation-success', response))
-          .catch(error => event.sender.send('calendar:finish-reservation-failure', error));
-      });
-    })
-    .catch(() => process.exit());
+          ipcMain.on('calendar:finish-reservation', (event, eventId) => {
+            client.finishEvent(eventId)
+              .then(response => event.sender.send('calendar:finish-reservation-success', response))
+              .catch(error => event.sender.send('calendar:finish-reservation-failure', error));
+          });
+        })
+        .catch(() => process.exit());
+    }).catch(error => {
+      console.log(error);
+      process.exit();
+    });
 });
 
 // Quit when all windows are closed.
@@ -93,5 +110,3 @@ app.on('activate', () => {
   }
 })
 
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.
