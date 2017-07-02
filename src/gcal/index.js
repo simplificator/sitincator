@@ -21,6 +21,19 @@ function readCredentials() {
   });
 }
 
+function askForOauthToken() {
+  return new Promise((resolve, reject) => {
+    const rl = readline.createInterface({
+      input: process.stdin,
+      output: process.stdout
+    });
+
+    rl.question('Enter the obtained API token: ', (answer) => {
+      resolve(answer);
+    });
+  });
+}
+
 function oauth2TokenInstructions(oauth2Client) {
   const authUrl = oauth2Client.generateAuthUrl({
     access_type: 'offline',
@@ -30,24 +43,16 @@ function oauth2TokenInstructions(oauth2Client) {
   console.log('Authorize Sitincator to access your calendar by visiting this URL: ', authUrl);
 
   return new Promise((resolve, reject) => {
-    return new Promise((resolve_question, reject_question) => {
-      const rl = readline.createInterface({
-        input: process.stdin,
-        output: process.stdout
+    askForOauthToken()
+      .then(token => {
+        createDirectory(CREDENTIALS_DIR);
+        fs.writeFile('credentials/token.json', token, error => {
+          if(error)
+            reject(error);
+          else
+            resolve(token);
+        });
       });
-
-      rl.question('Enter the obtained API token: ', (answer) => {
-        resolve_question(answer);
-      });
-    });
-  }).then(token => {
-    createDirectory(CREDENTIALS_DIR);
-    fs.writeFile('credentials/token.json', token, error => {
-      if(error)
-        reject(error);
-      else
-        resolve();
-    });
   });
 }
 
@@ -66,22 +71,36 @@ function storeToken(token) {
   fs.writeFile(SITINCATOR_TOKEN, JSON.stringify(token));
 }
 
+function getAccessToken(client, code) {
+  return new Promise((resolve, reject) => {
+    client.getToken(code, (err, token) => {
+      if (err) {
+        console.log('Error while trying to retrieve access token with code', code, err);
+        return reject(err);
+      }
+
+      storeToken(token);
+      resolve(token);
+    });
+  });
+}
+
 function readOauth2Token(oauth2Client) {
   return new Promise((resolve, reject) => {
     fs.readFile(SITINCATOR_TOKEN, (err, token) => {
       if (err) {
         fs.readFile(API_TOKEN, (err, code) => {
           if (err) {
-            return oauth2TokenInstructions(oauth2Client);
+            return oauth2TokenInstructions(oauth2Client)
+              .then(code => getAccessToken(oauth2Client, code))
+              .then(token => resolve(token))
+              .catch(error => reject(error));
           }
-          oauth2Client.getToken(code, (err, token) => {
-            if (err) {
-              console.log('Error while trying to retrieve access token', err);
-              return reject(err);
-            }
-            storeToken(token);
-            resolve(token);
-          });
+          else {
+            getAccessToken(oauth2Client, code)
+              .then(token => resolve(token))
+              .catch(error => reject(error));
+          }
         });
       } else {
         resolve(JSON.parse(token));
