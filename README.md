@@ -25,7 +25,6 @@ Node requirement: `v6`
     git clone git://github.com/simplificator/sitincator.git
     cd sitincator
     npm install
-    mkdir {config,credentials}
 
 - Follow [Google's guide][1] to obtain the OAuth JSON file and store it in `config/client_secret.json`.
 - Start webpack (note that this process is blocking, you could also start it in the background): `npm run watch`

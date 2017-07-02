@@ -48,6 +48,6 @@ build/*
 
 # Google Api
 credentials/*
-config/*
+config/*.json
 
 Sitincator-linux-armv7l
