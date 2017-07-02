@@ -16,6 +16,9 @@ const isCheckConnectionView = () => {
   return /check_connection/.test(currentHash());
 }
 
+// Disable pinch zooming
+require('electron').webFrame.setVisualZoomLevelLimits(1, 1);
+
 export default class App extends Component {
   constructor(props) {
     super(props);
