@@ -25,7 +25,7 @@ To install the binary:
 #### Configuration
 
 - Follow [Google's guide][1] to obtain the OAuth JSON file and store it in `config/client_secret.json`.
-- Start the application: `npm start`
+- Start the application: `/home/pi/Sitincator/Sitincator`
 - You are asked to enter the calendar ID (the calendar ID can be found on the settings page of your calendar in Google Calendar)
 - Open the link printed in your terminal, login with the same user as before to obtain the OAuth JSON file and authorize the app to access Google's API. You now get a token in the browser. Enter that token in the terminal's prompt.
 
@@ -46,6 +46,7 @@ Node requirement: `v6`
     npm install
 
 - Follow the instructions above (`Installation on the Raspberry Pi -> Configuration`). Before starting the application, start webpack (note that this process is blocking, you could also start it in the background): `npm run watch`
+- During development, start the application by calling `npm start`
 
 #### Local Production Environment
 
