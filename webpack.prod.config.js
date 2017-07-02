@@ -10,4 +10,11 @@ prodConfig.plugins = [
     }
   })
 ]
+
+prodConfig.output = {
+  filename: 'bundle.js',
+  path: __dirname + '/build',
+  publicPath: __dirname + '/build/'
+}
+
 module.exports = prodConfig;

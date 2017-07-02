@@ -32,6 +32,13 @@ Node requirement: `v6`
 - You are asked to enter the calendar ID (the calendar ID can be found on the settings page of your calendar in Google Calendar)
 - Open the link printed in your terminal, login with the same user as before to obtain the OAuth JSON file and authorize the app to access Google's API. You now get a token in the browser. Enter that token in the terminal's prompt.
 
+#### Local Production Environment
+
+To start the application in production environment on your development machine:
+
+    npm run build
+    npm run start-prod
+
 ### Installation on the Raspberry Pi
 
 It is recommended to build the package for the Raspberry Pi on a x86 machine:
