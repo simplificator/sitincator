@@ -61,7 +61,7 @@ It is recommended to build the package for the Raspberry Pi on an x86 machine:
 
     scripts/pack_pi.sh
 
-The package for the Raspberry Pi now resides in `./Sitincator-linux-armv7l`. You can launch the app by copying the directory to your Raspberry Pi 3 and calling `./Sitincator-linux-armv7l/Sitincator`.
+The package for the Raspberry Pi now resides in `/tmp/sitincator/Sitincator-linux-armv7l`. You can launch the app by copying the directory to your Raspberry Pi 3 and calling `./Sitincator-linux-armv7l/Sitincator`.
 
 Note that you need to configure `config` and `credentials` as outlined in `Configuration`.
 
