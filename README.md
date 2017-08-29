@@ -65,5 +65,47 @@ The package for the Raspberry Pi now resides in `/tmp/sitincator/Sitincator-linu
 
 Note that you need to configure `config` and `credentials` as outlined in `Configuration`.
 
+### Configuration of the Raspberry Pi
+
+Below you find some starting points to configure the Raspberry Pi for Sitincator.
+
+Create a script `start_meeting_room_app` using the following command to start Sitincator and initialize the Raspberry Pi's touch screen to portrait format. It also prevents the display from going into sleep mode.
+
+    cat > /home/pi/start_meeting_room_app << EOF
+    DISPLAY=":0" xinput --set-prop 'FT5406 memory based driver' 'Coordinate Transformation Matrix'  0 1 0 -1 0 1 0 0 1
+
+    DISPLAY=":0" xset s off
+    DISPLAY=":0" xset -dpms
+    DISPLAY=":0" xset s noblank
+    
+    cd /home/pi/Sitincator/
+    DISPLAY=":0" /home/pi/Sitincator/Sitincator
+    EOF
+    chmod +x /home/pi/start_meeting_room_app
+
+To automatically start Sitincator when the Raspberry Pi boots, run the following command to add the script `start_meeting_room_app` to autostart:
+
+    echo '@/home/pi/start_meeting_room_app' >> /home/pi/.config/lxsession/LXDE-pi/autostart
+
+To save some power, add the following cronjobs to automatically turn the display on and off:
+
+    # Cronjobs definition: crontab -e
+    0 7    *   *   *   /home/pi/display_turn_on
+    0 18   *   *   *   /home/pi/display_turn_off
+
+    cat > /home/pi/display_turn_on << EOF
+    DISPLAY=":0" xset dpms force on
+
+    DISPLAY=":0" xset s off
+    DISPLAY=":0" xset -dpms
+    DISPLAY=":0" xset s noblank
+    EOF
+    chmod +x /home/pi/display_turn_on
+
+    cat > /home/pi/display_turn_off << EOF
+    DISPLAY=":0" xset dpms force off
+    EOF
+    chmod +x /home/pi/display_turn_off
+
 [1]: https://developers.google.com/google-apps/calendar/quickstart/nodejs#step_1_turn_on_the_api_name
 
