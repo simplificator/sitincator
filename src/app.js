@@ -125,12 +125,21 @@ export default class App extends Component {
           onFinishReservation: this.handleFinishReservation.bind(this),
           onShowSchedule: this.handleShowSchedule.bind(this)})
         }
-        <footer>
-          <div className="footer">
-            {isStatusView() ? <Link to="/schedule">{footerText}</Link> : <Link to="/status">{footerText}</Link>}
-          </div>
-        </footer>
+        {this.drawFooter(footerText)}
       </div>
     )
+  }
+
+  drawFooter(footerText) {
+    if(isCheckConnectionView())
+      return '';
+
+    return (
+      <footer>
+        <div className="footer">
+          {isStatusView() ? <Link to="/schedule">{footerText}</Link> : <Link to="/status">{footerText}</Link>}
+        </div>
+      </footer>
+    );
   }
 }
