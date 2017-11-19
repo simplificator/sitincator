@@ -1,0 +1,30 @@
+.no-connection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+
+  background-color: $red;
+
+  .icon {
+    display: inline-block;
+    width: 80vw;
+    height: 50vh;
+
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 100%;
+
+    &.icon-no-connection {
+      background-image: url('../icons/no-connection.svg');
+      color: white;
+    }
+  }
+
+  h3.text {
+    color: white;
+    text-align: center;
+    width: 80vw;
+  }
+}

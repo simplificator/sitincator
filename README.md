@@ -80,7 +80,7 @@ Create a script `start_meeting_room_app` using the following command to start Si
     DISPLAY=":0" xset s noblank
     
     cd /home/pi/Sitincator/
-    DISPLAY=":0" /home/pi/Sitincator/Sitincator
+    DISPLAY=":0" /home/pi/Sitincator/Sitincator --disable-pinch
     EOF
     chmod +x /home/pi/start_meeting_room_app
 
