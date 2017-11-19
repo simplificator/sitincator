@@ -48,7 +48,7 @@ function oauth2TokenInstructions(oauth2Client) {
     askForOauthToken()
       .then(token => {
         createDirectory(CREDENTIALS_DIR);
-        fs.writeFile('credentials/token.json', token, error => {
+        fs.writeFile(API_TOKEN, token, error => {
           if(error)
             reject(error);
           else
