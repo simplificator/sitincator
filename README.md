@@ -1,4 +1,6 @@
-# Sitincator
+# Sitincator-shevett
+
+This is a fork of the Sitincator project:
 
 ![Sitincator](https://github.com/simplificator/sitincator/raw/gh-pages/images/sitincator.png)
 
