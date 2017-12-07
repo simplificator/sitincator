@@ -38,7 +38,7 @@ Run the following in a terminal:
 
     /home/pi/Sitincator/Sitincator
 
-### Development Setup
+### Development environment setup and startup
 
 It is not recommended to run the following setup on a Raspberry Pi. The installation of the correct node version and the required npm packages is quite a burden for the Raspberry Pi and takes a long time to complete, if successful. The setup has been tested on recent versions of OS X.
 
@@ -48,8 +48,14 @@ Node requirement: `v6`
     cd sitincator
     npm install
 
-- Follow the instructions above (`Installation on the Raspberry Pi -> Configuration`). Before starting the application, start webpack (note that this process is blocking, you could also start it in the background): `npm run watch`
-- During development, start the application by calling `npm start`
+- Follow the instructions above (`Installation on the Raspberry Pi -> Configuration`). 
+- Start webpack (note that this process is blocking, you could also start it in the background): 
+
+    npm run watch
+
+- Start the application in development mode (windowed, with debugging information) :
+
+    npm start
 
 #### Local Production Environment
 
