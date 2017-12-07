@@ -48,12 +48,12 @@ Node requirement: `v6`
     cd sitincator
     npm install
 
-- Follow the instructions above (`Installation on the Raspberry Pi -> Configuration`). 
-- Start webpack (note that this process is blocking, you could also start it in the background): 
+Follow the instructions above (`Installation on the Raspberry Pi -> Configuration`). 
+Start webpack (note that this process is blocking, you could also start it in the background): 
 
     npm run watch
 
-- Start the application in development mode (windowed, with debugging information) :
+Start the application in development mode (windowed, with debugging information) :
 
     npm start
 
