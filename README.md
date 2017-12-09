@@ -30,6 +30,7 @@ To install the binary:
 - You are asked to enter the calendar ID (the calendar ID can be found on the settings page of your calendar in Google Calendar)
 - Open the link printed in your terminal, login with the same user as before to obtain the OAuth JSON file and authorize the app to access Google's API. You now get a token in the browser. Enter that token in the terminal's prompt.
 - If your Raspberry Pi is not already in portrait mode, append the following to your `/boot/config.txt`: `display_rotate=1 90 degrees`
+- To add a custom title to the screens, to, say, identify a specific room this display is for, edit the `sitincator.json` file (created during the calendar ID setup) and modify the 'title' entry.
 
 #### Start the Application
 
