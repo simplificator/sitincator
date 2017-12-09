@@ -4,6 +4,8 @@ import Button from './button';
 import { humanReadableDuration, timeToEvent } from './../util';
 import { MILLISECONDS_PER_MINUTE } from './../constants';
 
+console.log("free : " + remote.getGlobal('sharedObj').calendarName)
+
 const freeStatusSubMessage = (nextEvent) => {
   const remainingTime = humanReadableDuration(timeToEvent(nextEvent));
   return `for the next ${remainingTime}`;
@@ -22,6 +24,7 @@ const Free = ({ nextEvent, onClick15, onClick30}) => {
 
   return (
     <div className='status-details' key={1}>
+      <strong> { remote.getGlobal('sharedObj').calendarName }</strong>
       <h3>Quick Booking</h3>
       <div className="action-buttons multiple">
         <Button

@@ -47,6 +47,14 @@
       font-size: 30px;
     }
 
+    strong {
+      height: 10px ;
+      margin: 4px 0 28px 0;
+      font-family: 'Mark Pro Book';
+      letter-spacing: 0.5px;
+      font-size: 10;
+    }
+
     .action-buttons {
       display: flex;
       flex-flow: row nowrap;
