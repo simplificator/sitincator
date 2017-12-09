@@ -9,7 +9,7 @@ const path = require('path');
 const CONFIG_DIR = path.resolve(__dirname, './config');
 const SITINCATOR_CONFIG = path.resolve(CONFIG_DIR, 'sitincator.json');
 
-global.sharedObj = {calendarName: "Something wonderful"};
+global.sharedObj = {calendarName: "",title:""};
 
 let win;
 
