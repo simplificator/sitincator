@@ -1,7 +1,7 @@
 import { isEmpty } from 'lodash/lang';
 import React from 'react';
 import Button from './button';
-import { humanReadableDuration, timeToEvent,foo } from './../util';
+import { humanReadableDuration, timeToEvent } from './../util';
 import { MILLISECONDS_PER_MINUTE } from './../constants';
 
 console.log("free : " + remote.getGlobal('sharedObj').calendarName)
@@ -38,7 +38,7 @@ const Free = ({ nextEvent, onClick15, onClick30}) => {
           className={lessThan30MinutesToEvent(nextEvent) ? 'hidden' : '' }
         />
       </div>
-      <h1><script>console.log("free: " + remote.getGlobal('sharedObj').calendarName))</script></h1>
+      <h1>{"It's free"}</h1>
       <h2>{remainingTimeMessage}</h2>
     </div>
   );
