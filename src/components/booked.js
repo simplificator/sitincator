@@ -13,6 +13,7 @@ const Booked = ({ currentEvent, onClick}) => {
 
   return (
     <div className='status-details' key={1}>
+      <strong> { remote.getGlobal('calendarName') }</strong>
       <div className="action-buttons single">
         <Button icon="cancel" className="big" handleClick={onClick}/>
       </div>

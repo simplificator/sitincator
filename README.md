@@ -29,6 +29,7 @@ To install the binary:
 - You are asked to enter the calendar ID (the calendar ID can be found on the settings page of your calendar in Google Calendar)
 - Open the link printed in your terminal, login with the same user as before to obtain the OAuth JSON file and authorize the app to access Google's API. You now get a token in the browser. Enter that token in the terminal's prompt.
 - If your Raspberry Pi is not already in portrait mode, append the following to your `/boot/config.txt`: `display_rotate=1 90 degrees`
+- To add a custom title to the screens (e.g. to identify a specific room this display is for), edit `sitincator.json` (created during the calendar ID setup) and modify the `title` entry.
 
 #### Start the Application
 
@@ -36,7 +37,7 @@ Run the following in a terminal:
 
     /home/pi/Sitincator/Sitincator
 
-### Development Setup
+### Development Environment Setup and Startup
 
 It is not recommended to run the following setup on a Raspberry Pi. The installation of the correct node version and the required npm packages is quite a burden for the Raspberry Pi and takes a long time to complete, if successful. The setup has been tested on recent versions of OS X.
 
@@ -46,8 +47,15 @@ Node requirement: `v6`
     cd sitincator
     npm install
 
-- Follow the instructions above (`Installation on the Raspberry Pi -> Configuration`). Before starting the application, start webpack (note that this process is blocking, you could also start it in the background): `npm run watch`
-- During development, start the application by calling `npm start`
+Follow the instructions above (`Installation on the Raspberry Pi -> Configuration`). 
+
+Start webpack (note that this process is blocking, you could also start it in the background): 
+
+    npm run watch
+
+Start the application in development mode (windowed, with debugging information):
+
+    npm start
 
 #### Local Production Environment
 

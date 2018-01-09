@@ -8,6 +8,7 @@
   
   <script>
     var bundlePath = './build/bundle.js';
+    var remote = require('electron').remote;
 
     if(typeof process !== 'undefined' && process.env.NODE_ENV === 'development') {
       bundlePath = 'http://localhost:8080/build/bundle.js';

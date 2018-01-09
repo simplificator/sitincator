@@ -22,6 +22,7 @@ const Free = ({ nextEvent, onClick15, onClick30}) => {
 
   return (
     <div className='status-details' key={1}>
+      <strong> { remote.getGlobal('calendarName') }</strong>
       <h3>Quick Booking</h3>
       <div className="action-buttons multiple">
         <Button
