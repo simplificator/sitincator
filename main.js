@@ -9,7 +9,7 @@ const path = require('path');
 const CONFIG_DIR = path.resolve(__dirname, './config');
 const SITINCATOR_CONFIG = path.resolve(CONFIG_DIR, 'sitincator.json');
 
-global.sharedObj = {calendarName: "",title:""};
+global.calendarName = '';
 
 let win;
 
@@ -25,7 +25,8 @@ function createDirectory(directory) {
 
 function writeConfiguration(calendar_id) {
   return new Promise((resolve, reject) => {
-    let configuration = { calendar_id: calendar_id, title:"" };
+    let configuration = { calendar_id: calendar_id, title: "" };
+
     fs.writeFile(SITINCATOR_CONFIG, JSON.stringify(configuration), error => {
       if(error)
         reject(error);
@@ -77,7 +78,7 @@ function readConfiguration() {
 }
 
 function createWindow () {
-  win = new BrowserWindow({width: 600, height: 800});
+  win = new BrowserWindow({width: 480, height: 800});
 
   if (process.env.NODE_ENV !== 'development')
     win.setFullScreen(true);
@@ -97,12 +98,12 @@ app.on('ready', () => {
   readConfiguration()
     .then(configuration => {
       const gcalApi = new gcal.GCal(configuration.calendar_id);
+
       gcalApi.authorize()
         .then(client => {
           createWindow();
 
-	// store away the calendar_id for display on the subpages...
-	global.sharedObj = {calendarName: configuration.title};
+          global.calendarName = configuration.title;
 
           ipcMain.on('calendar:list-events', event => client.listEvents()
             .then(items => event.sender.send('calendar:list-events-success', items))

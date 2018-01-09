@@ -13,13 +13,12 @@ const Booked = ({ currentEvent, onClick}) => {
 
   return (
     <div className='status-details' key={1}>
-      <strong> { remote.getGlobal('sharedObj').calendarName }</strong>
+      <strong> { remote.getGlobal('calendarName') }</strong>
       <div className="action-buttons single">
         <Button icon="cancel" className="big" handleClick={onClick}/>
       </div>
       <h1>Booked</h1>
       <h2>{remainingTimeMessage}</h2>
-
     </div>
   );
 }

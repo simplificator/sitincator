@@ -2,7 +2,6 @@
 
 ![Sitincator](https://github.com/simplificator/sitincator/raw/gh-pages/images/sitincator.png)
 
-
 `Sitincator` is [Simplificator's](https://www.simplificator.com) meeting room display system. It consists of a React/Electron app running on a Raspberry Pi 3, which is connected to a touch screen display.
 
 The system shows the current occupancy of the meeting room on the display, all meetings of the current day and allows to make a reservation for 15 or 30 minutes. Sitincator reads the meeting information from Google Calendar (once every minute).
@@ -30,7 +29,7 @@ To install the binary:
 - You are asked to enter the calendar ID (the calendar ID can be found on the settings page of your calendar in Google Calendar)
 - Open the link printed in your terminal, login with the same user as before to obtain the OAuth JSON file and authorize the app to access Google's API. You now get a token in the browser. Enter that token in the terminal's prompt.
 - If your Raspberry Pi is not already in portrait mode, append the following to your `/boot/config.txt`: `display_rotate=1 90 degrees`
-- To add a custom title to the screens, to, say, identify a specific room this display is for, edit the `sitincator.json` file (created during the calendar ID setup) and modify the 'title' entry.
+- To add a custom title to the screens (e.g. to identify a specific room this display is for), edit `sitincator.json` (created during the calendar ID setup) and modify the `title` entry.
 
 #### Start the Application
 
@@ -38,7 +37,7 @@ Run the following in a terminal:
 
     /home/pi/Sitincator/Sitincator
 
-### Development environment setup and startup
+### Development Environment Setup and Startup
 
 It is not recommended to run the following setup on a Raspberry Pi. The installation of the correct node version and the required npm packages is quite a burden for the Raspberry Pi and takes a long time to complete, if successful. The setup has been tested on recent versions of OS X.
 
@@ -49,11 +48,12 @@ Node requirement: `v6`
     npm install
 
 Follow the instructions above (`Installation on the Raspberry Pi -> Configuration`). 
+
 Start webpack (note that this process is blocking, you could also start it in the background): 
 
     npm run watch
 
-Start the application in development mode (windowed, with debugging information) :
+Start the application in development mode (windowed, with debugging information):
 
     npm start
 
