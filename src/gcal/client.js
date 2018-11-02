@@ -1,13 +1,13 @@
-const google = require('googleapis');
+const google = require("googleapis");
 
 let _auth, _calendarId;
-const calendar = google.calendar('v3');
+const calendar = google.calendar("v3");
 
 const MILLISECONDS_PER_MINUTE = 60000;
 
 module.exports = class Client {
   constructor(calendarId, auth) {
-    _calendarId = calendarId
+    _calendarId = calendarId;
     _auth = auth;
   }
 
@@ -15,47 +15,68 @@ module.exports = class Client {
     const timeMin = new Date(new Date().setHours(0, 0, 0, 0)).toISOString();
     const timeMax = new Date(new Date().setHours(23, 59, 59)).toISOString();
     return new Promise((resolve, reject) => {
-      calendar.events.list({
-        auth: _auth,
-        calendarId: _calendarId,
-        timeMin,
-        timeMax,
-        singleEvents: true,
-        orderBy: 'startTime'
-      }, (err, response) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(response.items);
+      calendar.events.list(
+        {
+          auth: _auth,
+          calendarId: _calendarId,
+          timeMin,
+          timeMax,
+          singleEvents: true,
+          orderBy: "startTime"
+        },
+        (err, response) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(response.items);
+          }
         }
-      });
+      );
     });
   }
 
   insertEvent(duration = 15) {
     const now = new Date();
     return new Promise((resolve, reject) => {
+      // TODO:
+      // Currently we are trying to insert an event on a calendar that is actually a resource.
+      // This doesn't work because resources don't have calendars...
+      //
+      // Instead, we should try to authenticate as a normal user and then insert an event with
+      // the room id as the resource
+      //
+      // It seems like this can be done by creating an event with the room id as an attendee:
+      //  https://developers.google.com/calendar/v3/reference/events/insert
+      //  https://developers.google.com/calendar/concepts/domain
+      //
+      // { attendees: [ { email: "ROOM_ID@resource.calendar.google.com" } ]
+      // }
       const resource = {
         summary: `Quick Reservation ${duration}'`,
         description: `Quick Reservation ${duration}'`,
         start: {
-          dateTime: now.toISOString(),
+          dateTime: now.toISOString()
         },
         end: {
-          dateTime: new Date(now.getTime() + duration * MILLISECONDS_PER_MINUTE).toISOString(),
-        },
-      };
-      calendar.events.insert({
-        auth: _auth,
-        calendarId: _calendarId,
-        resource,
-      }, (err, response) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(this.listEvents());
+          dateTime: new Date(
+            now.getTime() + duration * MILLISECONDS_PER_MINUTE
+          ).toISOString()
         }
-      });
+      };
+      calendar.events.insert(
+        {
+          auth: _auth,
+          calendarId: _calendarId,
+          resource
+        },
+        (err, response) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(this.listEvents());
+          }
+        }
+      );
     });
   }
 
@@ -64,40 +85,42 @@ module.exports = class Client {
     return new Promise((resolve, reject) => {
       const resource = {
         end: {
-          dateTime: now.toISOString(),
-        },
-      };
-      calendar.events.patch({
-        auth: _auth,
-        calendarId: _calendarId,
-        eventId,
-        resource,
-      }, (err, response) => {
-        console.log(err, response);
-        if (err) {
-          reject(err);
-        } else {
-          resolve(this.listEvents());
+          dateTime: now.toISOString()
         }
-      });
+      };
+      calendar.events.patch(
+        {
+          auth: _auth,
+          calendarId: _calendarId,
+          eventId,
+          resource
+        },
+        (err, response) => {
+          console.log(err, response);
+          if (err) {
+            reject(err);
+          } else {
+            resolve(this.listEvents());
+          }
+        }
+      );
     });
   }
 
   statusEvent() {
     const now = new Date().getTime();
-    return this.listEvents()
-      .then(events => {
-        const item = events.find((e) => {
-          const start = new Date(e.start.dateTime).getTime();
-          const end = new Date(e.end.dateTime).getTime();
-          if (now > start && now < end) {
-            return true;
-          }
-          if (now < start) {
-            return true;
-          };
-        });
-        return item || {};
+    return this.listEvents().then(events => {
+      const item = events.find(e => {
+        const start = new Date(e.start.dateTime).getTime();
+        const end = new Date(e.end.dateTime).getTime();
+        if (now > start && now < end) {
+          return true;
+        }
+        if (now < start) {
+          return true;
+        }
       });
+      return item || {};
+    });
   }
-}
+};
