@@ -39,19 +39,10 @@ module.exports = class Client {
   insertEvent(duration = 15) {
     const now = new Date();
     return new Promise((resolve, reject) => {
-      // TODO:
-      // Currently we are trying to insert an event on a calendar that is actually a resource.
-      // This doesn't work because resources don't have calendars...
+      // We insert an event with the room id (the resource) as an attendee
       //
-      // Instead, we should try to authenticate as a normal user and then insert an event with
-      // the room id as the resource
-      //
-      // It seems like this can be done by creating an event with the room id as an attendee:
       //  https://developers.google.com/calendar/v3/reference/events/insert
       //  https://developers.google.com/calendar/concepts/domain
-      //
-      // { attendees: [ { email: "ROOM_ID@resource.calendar.google.com" } ]
-      // }
       const resource = {
         summary: `Quick Reservation ${duration}'`,
         description: `Quick Reservation ${duration}'`,

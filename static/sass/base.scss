@@ -23,8 +23,12 @@ $mark-pro-regular: 'Mark Pro';
 
 $transition-duration: 0.4s;
 
-* {
+html * {
   cursor: none;
+}
+// for dev build
+html.reset-all-cursors * {
+  cursor: inherit !important;
 }
 
 body {
