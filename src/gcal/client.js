@@ -1,14 +1,15 @@
 const google = require("googleapis");
 
-let _auth, _calendarId;
+let _auth, _calendarId, _roomId;
 const calendar = google.calendar("v3");
 
 const MILLISECONDS_PER_MINUTE = 60000;
 
 module.exports = class Client {
-  constructor(calendarId, auth) {
+  constructor(calendarId, roomId, auth) {
     _calendarId = calendarId;
     _auth = auth;
+    _roomId = roomId;
   }
 
   listEvents() {
@@ -61,7 +62,8 @@ module.exports = class Client {
           dateTime: new Date(
             now.getTime() + duration * MILLISECONDS_PER_MINUTE
           ).toISOString()
-        }
+        },
+        attendees: [{ email: _roomId }]
       };
       calendar.events.insert(
         {

@@ -1,24 +1,22 @@
-const fs = require('fs');
-const path = require('path');
-const readline = require('readline');
+const fs = require("fs");
+const path = require("path");
+const readline = require("readline");
 
-const google = require('googleapis');
-const googleAuth = require('google-auth-library');
-const Client = require('./client');
+const google = require("googleapis");
+const googleAuth = require("google-auth-library");
+const Client = require("./client");
 
-const CREDENTIALS_DIR = path.resolve(__dirname, '../../credentials');
-const CONFIG_DIR = path.resolve(__dirname, '../../config');
-const API_TOKEN = path.resolve(CREDENTIALS_DIR, 'token.json');
-const SITINCATOR_TOKEN = path.resolve(CREDENTIALS_DIR, 'sitincator.json');
-const GOOGLE_CLIENT_SECRET = path.resolve(CONFIG_DIR, 'client_secret.json');
+const CREDENTIALS_DIR = path.resolve(__dirname, "../../credentials");
+const CONFIG_DIR = path.resolve(__dirname, "../../config");
+const API_TOKEN = path.resolve(CREDENTIALS_DIR, "token.json");
+const SITINCATOR_TOKEN = path.resolve(CREDENTIALS_DIR, "sitincator.json");
+const GOOGLE_CLIENT_SECRET = path.resolve(CONFIG_DIR, "client_secret.json");
 
 function readCredentials() {
   return new Promise((resolve, reject) => {
     fs.readFile(GOOGLE_CLIENT_SECRET, (err, content) => {
-      if (err)
-        reject(err);
-      else
-        resolve(JSON.parse(content));
+      if (err) reject(err);
+      else resolve(JSON.parse(content));
     });
   });
 }
@@ -30,7 +28,7 @@ function askForOauthToken() {
       output: process.stdout
     });
 
-    rl.question('Enter the obtained API token: ', (answer) => {
+    rl.question("Enter the obtained API token: ", answer => {
       resolve(answer);
     });
   });
@@ -38,23 +36,23 @@ function askForOauthToken() {
 
 function oauth2TokenInstructions(oauth2Client) {
   const authUrl = oauth2Client.generateAuthUrl({
-    access_type: 'offline',
-    scope: ['https://www.googleapis.com/auth/calendar'],
+    access_type: "offline",
+    scope: ["https://www.googleapis.com/auth/calendar"]
   });
 
-  console.log('Authorize Sitincator to access your calendar by visiting this URL: ', authUrl);
+  console.log(
+    "Authorize Sitincator to access your calendar by visiting this URL: ",
+    authUrl
+  );
 
   return new Promise((resolve, reject) => {
-    askForOauthToken()
-      .then(token => {
-        createDirectory(CREDENTIALS_DIR);
-        fs.writeFile(API_TOKEN, token, error => {
-          if(error)
-            reject(error);
-          else
-            resolve(token);
-        });
+    askForOauthToken().then(token => {
+      createDirectory(CREDENTIALS_DIR);
+      fs.writeFile(API_TOKEN, token, error => {
+        if (error) reject(error);
+        else resolve(token);
       });
+    });
   });
 }
 
@@ -62,7 +60,7 @@ function createDirectory(directory) {
   try {
     fs.mkdirSync(directory);
   } catch (err) {
-    if (err.code != 'EEXIST') {
+    if (err.code != "EEXIST") {
       throw err;
     }
   }
@@ -77,7 +75,11 @@ function getAccessToken(client, code) {
   return new Promise((resolve, reject) => {
     client.getToken(code, (err, token) => {
       if (err) {
-        console.log('Error while trying to retrieve access token with code', code, err);
+        console.log(
+          "Error while trying to retrieve access token with code",
+          code,
+          err
+        );
         return reject(err);
       }
 
@@ -97,8 +99,7 @@ function readOauth2Token(oauth2Client) {
               .then(code => getAccessToken(oauth2Client, code))
               .then(token => resolve(token))
               .catch(error => reject(error));
-          }
-          else {
+          } else {
             getAccessToken(oauth2Client, code)
               .then(token => resolve(token))
               .catch(error => reject(error));
@@ -111,26 +112,33 @@ function readOauth2Token(oauth2Client) {
   });
 }
 
-let _calendarId;
+let _calendarId, _roomId;
 exports.GCal = class GCal {
-  constructor(calendarId) {
+  constructor(calendarId, roomId) {
     _calendarId = calendarId;
+    _roomId = roomId;
   }
 
   authorize() {
-    return readCredentials().then(credentials => {
-      const clientSecret = credentials.installed.client_secret;
-      const clientId = credentials.installed.client_id;
-      const redirectUrl = credentials.installed.redirect_uris[0];
-      const auth = new googleAuth();
-      const oauth2Client = new auth.OAuth2(clientId, clientSecret, redirectUrl);
-      return readOauth2Token(oauth2Client).then(token => {
-        oauth2Client.credentials = token;
-        return new Client(_calendarId, oauth2Client);
+    return readCredentials()
+      .then(credentials => {
+        const clientSecret = credentials.installed.client_secret;
+        const clientId = credentials.installed.client_id;
+        const redirectUrl = credentials.installed.redirect_uris[0];
+        const auth = new googleAuth();
+        const oauth2Client = new auth.OAuth2(
+          clientId,
+          clientSecret,
+          redirectUrl
+        );
+        return readOauth2Token(oauth2Client).then(token => {
+          oauth2Client.credentials = token;
+          return new Client(_calendarId, _roomId, oauth2Client);
+        });
+      })
+      .catch(function(error) {
+        console.log(error);
+        exit(1);
       });
-    }).catch(function(error) {
-      console.log(error);
-      exit(1);
-    });
   }
 };

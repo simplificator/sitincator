@@ -31,7 +31,10 @@ const main = () => {
   app.on("ready", () => {
     readConfiguration()
       .then(configuration => {
-        const gcalApi = new gcal.GCal(configuration.calendar_id);
+        const gcalApi = new gcal.GCal(
+          configuration.calendar_id,
+          configuration.room_id
+        );
 
         gcalApi
           .authorize()
@@ -124,7 +127,14 @@ const readConfiguration = () => {
     if (error.code != "ENOENT") {
       return Promise.reject(error);
     } else {
-      return askForCalendarId().then(writeConfiguration);
+      // TODO: this seems like a bad approach, just having an editable config file seems simpler..
+      return askForUserInput(
+        "Enter the calendar ID (found on the settings page of your calendar in Google Calendar): "
+      ).then(calendar_id => {
+        return askForUserInput("Enter room ID:").then(room_id => {
+          return writeConfiguration({ room_id, calendar_id });
+        });
+      });
     }
   });
 };
@@ -138,25 +148,21 @@ const readConfigurationFile = () => {
   });
 };
 
-const askForCalendarId = () => {
+const askForUserInput = question => {
   return new Promise((resolve, reject) => {
     const rl = readline.createInterface({
       input: process.stdin,
       output: process.stdout
     });
-
-    rl.question(
-      "Enter the calendar ID (found on the settings page of your calendar in Google Calendar): ",
-      answer => {
-        resolve(answer);
-      }
-    );
+    rl.question(question, answer => {
+      resolve(answer);
+    });
   });
 };
 
-const writeConfiguration = calendar_id => {
+const writeConfiguration = ({ calendar_id, room_id }) => {
   return new Promise((resolve, reject) => {
-    let configuration = { calendar_id: calendar_id, title: "" };
+    let configuration = { calendar_id, room_id, title: "" };
 
     fs.writeFile(SITINCATOR_CONFIG, JSON.stringify(configuration), error => {
       if (error) reject(error);
