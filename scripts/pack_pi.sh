@@ -4,7 +4,7 @@
 GIT_DIR=$(pwd)
 cd /tmp
 rm -rf sitincator
-rm -rf sitincator
+# rm -rf sitincator
 git clone $GIT_DIR
 cd sitincator
 

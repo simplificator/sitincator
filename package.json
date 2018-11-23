@@ -31,7 +31,6 @@
     "babel-preset-react": "^6.16.0",
     "babel-preset-stage-0": "^6.16.0",
     "css-loader": "^0.25.0",
-    "electron-packager": "^8.7.0",
     "file-loader": "^0.9.0",
     "humanize-duration": "^3.9.1",
     "lodash": "^4.16.6",
@@ -46,6 +45,7 @@
   "dependencies": {
     "classnames": "^2.2.5",
     "electron": "^1.4.4",
+    "electron-packager": "^12.2.0",
     "google-auth-library": "^0.9.9",
     "googleapis": "^14.1.0",
     "normalize.css": "^5.0.0",
